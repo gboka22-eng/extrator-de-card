@@ -381,6 +381,16 @@
             transform: rotate(180deg);
         }
 
+        .conteudo-lote {
+            display: none;
+            background-color: #181818;
+            border-top: 1px solid #282828;
+        }
+
+        .card-lote.aberto .conteudo-lote {
+            display: block;
+        }
+
         .qtd-badge {
             background: #E50914;
             color: white;
@@ -416,11 +426,6 @@
         .btn-copiar-lote {
             background: rgba(52, 199, 89, 0.3);
             border-color: rgba(52, 199, 89, 0.5);
-        }
-
-        .conteudo-lote {
-            background-color: #181818;
-            border-top: 1px solid #282828;
         }
 
         .tabela-container {
@@ -752,7 +757,7 @@
         <div class="netflix-header">
             <div class="logo-grupo">
                 <div class="logo-bklogins">bklogins</div>
-                <div class="versao-tag">v16.1</div>
+                <div class="versao-tag">v16.2</div>
             </div>
             <div class="badge-sub">CARDS PRO</div>
         </div>
@@ -788,7 +793,7 @@
         <div class="netflix-header">
             <div class="logo-grupo">
                 <div class="logo-bklogins">bklogins</div>
-                <div class="versao-tag">v16.1</div>
+                <div class="versao-tag">v16.2</div>
             </div>
             <div class="badge-sub">EMAILS PRO</div>
         </div>
@@ -840,7 +845,7 @@
         <div class="netflix-header">
             <div class="logo-grupo">
                 <div class="logo-bklogins">bklogins</div>
-                <div class="versao-tag">v16.1</div>
+                <div class="versao-tag">v16.2</div>
             </div>
             <div class="badge-sub">DADOS PRO</div>
         </div>
@@ -868,7 +873,7 @@
         <div class="netflix-header">
             <div class="logo-grupo">
                 <div class="logo-bklogins">bklogins</div>
-                <div class="versao-tag">v16.1</div>
+                <div class="versao-tag">v16.2</div>
             </div>
             <div class="badge-sub">ENVIO MANUAL DE BACKUP</div>
         </div>
@@ -1637,12 +1642,17 @@
 
     function alternarLote(tipo, idLote) {
         const index = appState[tipo].abertos.indexOf(idLote);
-        if (index > -1) appState[tipo].abertos.splice(index, 1);
-        else appState[tipo].abertos.push(idLote);
+        if (index > -1) {
+            appState[tipo].abertos.splice(index, 1);
+        } else {
+            appState[tipo].abertos.push(idLote);
+        }
         
         localStorage.setItem(CHAVES[tipo].abertos, JSON.stringify(appState[tipo].abertos));
         const elemento = document.getElementById(`lote_${tipo}_${idLote}`);
-        if (elemento) elemento.classList.toggle('aberto');
+        if (elemento) {
+            elemento.classList.toggle('aberto');
+        }
     }
 
     function excluirLote(tipo, idLote) {
@@ -1972,7 +1982,10 @@
             const bannerDiv = document.createElement('div');
             bannerDiv.className = 'banner-lote';
             bannerDiv.style.backgroundImage = `url('${lote.banner}')`;
-            bannerDiv.onclick = () => alternarLote(tipo, lote.idLote);
+            bannerDiv.onclick = (e) => {
+                if (e.target.tagName === 'BUTTON' || e.target.closest('button')) return;
+                alternarLote(tipo, lote.idLote);
+            };
 
             bannerDiv.innerHTML = `
                 <div class="banner-overlay"></div>
@@ -2221,7 +2234,7 @@
 
     function gerarglobaisBackupJSON() {
         return JSON.stringify({
-            versao: '16.1',
+            versao: '16.2',
             dataExportacao: new Date().toLocaleString('pt-BR'),
             cards: appState.cards,
             emails: appState.emails,

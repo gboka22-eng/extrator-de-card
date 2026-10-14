@@ -1445,41 +1445,68 @@
         const itens = [];
         let contador = 1;
 
-        const blocosBrutos = texto.split(/(?:PESSOA\s+\d+:?|\n\s*\n)+/i);
+        // Separação universal por quebra de linha
+        const linhas = texto.split(/\r?\n/);
+        let blocoAtual = [];
 
-        blocosBrutos.forEach(bloco => {
-            const b = bloco.trim();
-            if (!b) return;
-
-            let cpf = '', nome = '', nascimento = '', sexo = '';
-
-            const mCpf = b.match(/(?:CPF|DOC|DOCUMENTO)[:\s]*([0-9\.\-]+)/i);
-            const mNome = b.match(/(?:NOME|NOME COMPLETO)[:\s]*([^\n•|]+)/i);
-            const mNasc = b.match(/(?:NASCIMENTO|NASC|DATA NASC)[:\s]*([0-9\/]+)/i);
-            const mSexo = b.match(/(?:SEXO|GENERO)[:\s]*([M|F|MASCULINO|FEMININO])/i);
-
-            if (mCpf) cpf = mCpf[1].replace(/[^\d]/g, '').trim();
-            if (mNome) nome = mNome[1].trim();
-            if (mNasc) nascimento = mNasc[1].trim();
-            if (mSexo) sexo = mSexo[1].trim().toUpperCase();
-
-            if (!cpf && !nome && b.includes('|')) {
-                const partes = b.split('|');
-                if (partes[0]) cpf = partes[0].replace(/[^\d]/g, '').trim();
-                if (partes[1]) nome = partes[1].trim();
-                if (partes[2]) nascimento = partes[2].trim();
-                if (partes[3]) sexo = partes[3].trim().toUpperCase();
+        linhas.forEach((linha, index) => {
+            const l = linha.trim();
+            if (l.length > 0) {
+                blocoAtual.push(l);
             }
 
-            if (cpf || nome) {
-                itens.push({
-                    idItem: contador++,
-                    principal: nome || 'NOME NÃO INFORMADO',
-                    secundario: cpf || 'S/ CPF',
-                    terciario: (nascimento ? nascimento : '-') + (sexo ? ` (${sexo})` : ''),
-                    textoCompleto: b,
-                    cpfLimpo: cpf
-                });
+            if ((l.length === 0 || index === linhas.length - 1) && blocoAtual.length > 0) {
+                const textoBloco = blocoAtual.join('\n');
+                let cpf = '', nome = '', nascimento = '', sexo = '';
+
+                // Busca regex de chaves comuns
+                const mCpf = textoBloco.match(/(?:CPF|DOC|DOCUMENTO)[:\s]*([0-9\.\-]+)/i);
+                const mNome = textoBloco.match(/(?:NOME|NOME COMPLETO)[:\s]*([^\n•|]+)/i);
+                const mNasc = textoBloco.match(/(?:NASCIMENTO|NASC|DATA NASC)[:\s]*([0-9\/]+)/i);
+                const mSexo = textoBloco.match(/(?:SEXO|GENERO)[:\s]*([M|F|MASCULINO|FEMININO])/i);
+
+                if (mCpf) cpf = mCpf[1].replace(/[^\d]/g, '').trim();
+                if (mNome) nome = mNome[1].trim();
+                if (mNasc) nascimento = mNasc[1].trim();
+                if (mSexo) sexo = mSexo[1].trim().toUpperCase();
+
+                // Tratamento de formato delimitado por Pipes (ex: CPF|NOME|NASC|SEXO ou NOME|CPF|NASC)
+                if (!cpf && !nome && textoBloco.includes('|')) {
+                    const partes = textoBloco.split('|');
+                    partes.forEach(p => {
+                        const val = p.trim();
+                        const apLimpo = val.replace(/[^\d]/g, '');
+                        if (apLimpo.length === 11 && !cpf) {
+                            cpf = apLimpo;
+                        } else if (/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/.test(val) && val.length > 3 && !nome) {
+                            nome = val;
+                        } else if (val.includes('/') && !nascimento) {
+                            nascimento = val;
+                        } else if ((val === 'M' || val === 'F') && !sexo) {
+                            sexo = val;
+                        }
+                    });
+                }
+
+                // Fallback para linha direta simples sem tags
+                if (!nome && !cpf && blocoAtual.length === 1) {
+                    const unicaLinha = blocoAtual[0];
+                    const numApenas = unicaLinha.replace(/[^\d]/g, '');
+                    if (numApenas.length === 11) cpf = numApenas;
+                    else nome = unicaLinha;
+                }
+
+                if (cpf || nome || textoBloco) {
+                    itens.push({
+                        idItem: contador++,
+                        principal: nome || 'PESSOA ' + contador,
+                        secundario: cpf ? cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4") : 'S/ CPF',
+                        terciario: (nascimento ? nascimento : '-') + (sexo ? ` (${sexo})` : ''),
+                        textoCompleto: textoBloco,
+                        cpfLimpo: cpf
+                    });
+                }
+                blocoAtual = [];
             }
         });
 

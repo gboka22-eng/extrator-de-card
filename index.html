@@ -142,6 +142,9 @@
             text-transform: uppercase;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
+        .select-import-status:focus {
+            border-color: #E50914;
+        }
 
         textarea {
             width: 100%;
@@ -226,8 +229,11 @@
             background-color: #E50914;
             border-color: #E50914;
         }
+        .btn-backup:hover {
+            background-color: #444;
+        }
 
-        /* CARD PASTA ASSINADAS & PAINEL BACKUP */
+        /* CARD PASTA ASSINADAS, PAINEL BACKUP & LIXEIRA */
         .card-pasta-assinadas, .box-auto-backup, .box-lixeira {
             margin-top: 20px;
             background: #1a1a1a;
@@ -246,7 +252,6 @@
             box-shadow: 0 4px 18px rgba(255, 149, 0, 0.15);
             padding: 16px;
         }
-
         .cabecalho-pasta-assinadas {
             padding: 14px 16px;
             background: rgba(52, 199, 89, 0.1);
@@ -281,6 +286,7 @@
             font-size: 11px;
             font-weight: 800;
             cursor: pointer;
+            transition: all 0.2s;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
@@ -305,6 +311,11 @@
             outline: none;
             user-select: text;
             font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .card-lote-selecionado {
+            border: 2px solid #34c759 !important;
+            box-shadow: 0 0 12px rgba(52, 199, 89, 0.4) !important;
         }
 
         .status-scroll {
@@ -410,11 +421,16 @@
             font-weight: 700;
             cursor: pointer;
             backdrop-filter: blur(5px);
+            transition: background 0.2s;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
         .btn-acao-lote:hover {
             background: #E50914;
             border-color: #E50914;
+        }
+        .btn-copiar-lote {
+            background: rgba(52, 199, 89, 0.3);
+            border-color: rgba(52, 199, 89, 0.5);
         }
 
         .tabela-container {
@@ -453,6 +469,19 @@
             display: none !important;
         }
 
+        .status-card-select {
+            background: transparent;
+            color: #fff;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 2px 4px;
+            font-size: 12px;
+            outline: none;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin-left: 4px;
+        }
+
         .btn-copiar {
             background-color: #E50914;
             color: white;
@@ -462,6 +491,7 @@
             cursor: pointer;
             font-size: 11px;
             font-weight: 800;
+            transition: all 0.2s;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
         
@@ -475,17 +505,26 @@
             font-size: 12px;
             font-weight: 800;
             margin-right: 4px;
+            transition: all 0.2s;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
-
+        .btn-copiar-sec:hover {
+            background-color: #444;
+            color: #fff;
+        }
+        
         .btn-copiar.usado, .btn-copiar-sec.usado {
             background-color: #333 !important;
             color: #777 !important;
+            font-weight: 800;
             border-color: #333;
+            cursor: default;
         }
         .btn-copiar.ultimo-copiado, .btn-copiar-sec.ultimo-copiado {
             background-color: #34c759 !important;
             color: #ffffff !important;
+            font-weight: 800;
+            box-shadow: 0 0 10px rgba(52, 199, 89, 0.3);
         }
 
         .btn-excluir-item {
@@ -498,6 +537,7 @@
             font-size: 11px;
             font-weight: 800;
             margin-left: 6px;
+            transition: all 0.2s;
         }
 
         .badge-id {
@@ -512,12 +552,27 @@
             font-family: monospace;
             font-size: 14px;
             font-weight: 600;
+            letter-spacing: 0.5px;
             color: #fff;
         }
         .email-text {
             font-size: 13px;
             color: #ddd;
             font-weight: 600;
+        }
+
+        .status-select {
+            background-color: #2b2b2b;
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 4px;
+            padding: 4px 6px;
+            font-size: 11px;
+            font-weight: 700;
+            outline: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         .painel-selecao-flutuante {
@@ -537,7 +592,52 @@
             z-index: 2000;
             font-size: 12px;
             font-weight: 800;
+            animation: bounceIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             max-width: 95%;
+        }
+        @keyframes bounceIn {
+            from { transform: translate(-50%, 20px); opacity: 0; }
+            to { transform: translate(-50%, 0); opacity: 1; }
+        }
+        .btn-copiar-selecionados {
+            background-color: #34c759;
+            color: #ffffff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 11px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background 0.2s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .btn-apagar-selecionados {
+            background-color: #E50914;
+            color: #ffffff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 11px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background 0.2s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .btn-cancelar-selecao {
+            background: rgba(255,255,255,0.1);
+            color: #aaa;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-left: 2px;
         }
 
         .bottom-nav {
@@ -566,6 +666,7 @@
             font-size: 11px;
             font-weight: 700;
             cursor: pointer;
+            transition: color 0.2s;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
@@ -582,6 +683,7 @@
             align-items: center;
             justify-content: center;
             z-index: 10000;
+            animation: fadeIn 0.2s ease-in-out;
         }
         .modal-box {
             background: #222222;
@@ -590,6 +692,7 @@
             padding: 20px;
             width: 90%;
             max-width: 380px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
             text-align: center;
         }
         .modal-titulo {
@@ -617,22 +720,30 @@
             font-weight: 800;
             font-size: 13px;
             cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
-        .btn-modal-cancelar { background: #333; color: #ccc; }
-        .btn-modal-confirmar { background: #E50914; color: #fff; }
+        .btn-modal-cancelar {
+            background: #333333;
+            color: #ccc;
+        }
+        .btn-modal-confirmar {
+            background: #E50914;
+            color: #fff;
+        }
 
         /* Estilos da Lixeira */
-        .item-lixeira {
+        .item-lixeira-card {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 8px 10px;
             background: #222;
+            border: 1px solid #333;
             border-radius: 6px;
             margin-bottom: 6px;
             font-size: 12px;
         }
-        .btn-restaurar {
+        .btn-restaurar-lixo {
             background: #34c759;
             color: #fff;
             border: none;
@@ -642,7 +753,7 @@
             cursor: pointer;
             margin-right: 4px;
         }
-        .btn-deletar-perm {
+        .btn-deletar-lixo {
             background: #E50914;
             color: #fff;
             border: none;
@@ -670,9 +781,9 @@
 
 <div id="painelSelecao" class="painel-selecao-flutuante">
     <span id="txtQtdSelecionados">0 sel.</span>
-    <button class="btn-copiar" id="btnCopiarSel" style="background:#34c759; border-radius:20px; font-size:11px;">Copiar</button>
-    <button class="btn-copiar" id="btnApagarSel" style="background:#E50914; border-radius:20px; font-size:11px;">Apagar</button>
-    <button id="btnCancelarSel" style="background:rgba(255,255,255,0.1); color:#aaa; border:none; width:24px; height:24px; border-radius:50%; cursor:pointer;">✕</button>
+    <button class="btn-copiar-selecionados" id="btnCopiarSel">Copiar</button>
+    <button class="btn-apagar-selecionados" id="btnApagarSel">Apagar</button>
+    <button class="btn-cancelar-selecao" id="btnCancelarSel">✕</button>
 </div>
 
 <input type="file" id="fileImportGlobal" style="display: none;" accept=".json,.txt">
@@ -793,7 +904,7 @@
     </div>
 </div>
 
-<!-- VIEW 4: CONFIG E LIXEIRA -->
+<!-- VIEW 4: ENVIO MANUAL DE BACKUP & LIXEIRA -->
 <div id="view-config" class="view">
     <div class="container">
         <div class="netflix-header">
@@ -801,17 +912,16 @@
                 <div class="logo-bklogins">bklogins</div>
                 <div class="versao-tag">v16.2</div>
             </div>
-            <div class="badge-sub">SISTEMA & LIXEIRA</div>
+            <div class="badge-sub">LIXEIRA & BACKUP</div>
         </div>
 
+        <!-- NOVO PAINEL DA LIXEIRA -->
         <div class="box-lixeira">
             <h3 style="margin-bottom: 12px; color: #ff9500; font-size: 15px; display:flex; justify-content:space-between; align-items:center;">
-                <span>🗑️ Lixeira do Sistema</span>
-                <button id="btnEsvaziarLixeira" style="background:#E50914; color:#fff; border:none; padding:4px 8px; border-radius:4px; font-size:11px; cursor:pointer;">Esvaziar Tudo</button>
+                <span>🗑️ Lixeira Inteligente</span>
+                <button id="btnEsvaziarLixeira" style="background:#E50914; color:#fff; border:none; padding:4px 8px; border-radius:4px; font-size:11px; font-weight:800; cursor:pointer;">Esvaziar Tudo</button>
             </h3>
-            <div id="listaLixeira" style="max-height: 250px; overflow-y: auto;">
-                <!-- Itens deletados aparecerão aqui -->
-            </div>
+            <div id="listaLixeira" style="max-height: 220px; overflow-y: auto;"></div>
         </div>
 
         <div class="box-auto-backup">
@@ -877,7 +987,9 @@
     const BANNERS = [
         'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800&auto=format&fit=crop&q=80',
         'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80',
-        'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=800&auto=format&fit=crop&q=80'
+        'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=800&auto=format&fit=crop&q=80',
+        'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80',
+        'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80'
     ];
 
     let appState = {
@@ -909,6 +1021,11 @@
         abaAtiva: localStorage.getItem(CHAVES.abaAtiva) || 'cards'
     };
 
+    let modoSelecaoAtivo = false;
+    let modoSelecaoLotesAssinadas = false;
+    let itensSelecionados = new Map(); 
+    let lotesAssinadasSelecionados = new Set();
+    let timerPressionar = null;
     let acaoModalPendente = null;
 
     function copiarParaAreaTransferencia(texto) {
@@ -972,21 +1089,23 @@
         }
     }
 
+    /* LIXEIRA INTELIGENTE CONTEXTUAL */
     function moverParaLixeira(tipo, item, nomeLote) {
-        const objetoLixeira = {
+        const obj = {
             idLixeira: Date.now() + Math.random(),
             tipo: tipo,
             item: item,
             loteOriginal: nomeLote,
             dataDelecao: gerarDataHoraFormatada()
         };
-        appState.lixeira.unshift(objetoLixeira);
+        appState.lixeira.unshift(obj);
         localStorage.setItem(CHAVES.lixeira, JSON.stringify(appState.lixeira));
         renderizarLixeira();
     }
 
     function renderizarLixeira() {
         const divLixeira = document.getElementById('listaLixeira');
+        if (!divLixeira) return;
         divLixeira.innerHTML = '';
 
         if (appState.lixeira.length === 0) {
@@ -996,15 +1115,15 @@
 
         appState.lixeira.forEach(elemento => {
             const div = document.createElement('div');
-            div.className = 'item-lixeira';
+            div.className = 'item-lixeira-card';
             div.innerHTML = `
                 <div>
-                    <strong>[${elemento.tipo.toUpperCase()}]</strong> ${elemento.item.principal} 
-                    <br><small style="color:#777;">De: ${elemento.loteOriginal}</small>
+                    <strong style="color:#ff9500;">[${elemento.tipo.toUpperCase()}]</strong> ${elemento.item.principal} 
+                    <br><small style="color:#777;">Origem: ${elemento.loteOriginal}</small>
                 </div>
                 <div>
-                    <button class="btn-restaurar" onclick="restaurarItemLixeira('${elemento.idLixeira}')">Restaurar</button>
-                    <button class="btn-deletar-perm" onclick="deletarPermanenteLixeira('${elemento.idLixeira}')">✕</button>
+                    <button class="btn-restaurar-lixo" onclick="restaurarItemLixeira('${elemento.idLixeira}')">Restaurar</button>
+                    <button class="btn-deletar-lixo" onclick="deletarPermanenteLixeira('${elemento.idLixeira}')">✕</button>
                 </div>
             `;
             divLixeira.appendChild(div);
@@ -1047,29 +1166,47 @@
         renderizarLixeira();
     }
 
-    document.getElementById('btnEsvaziarLixeira').onclick = () => {
-        if (appState.lixeira.length === 0) return;
-        mostrarModal('Esvaziar Lixeira', 'Deseja apagar definitivamente todos os itens da lixeira?', () => {
-            appState.lixeira = [];
-            localStorage.setItem(CHAVES.lixeira, JSON.stringify([]));
-            renderizarLixeira();
-            mostrarStatus('Lixeira esvaziada!');
-        });
-    };
-
     window.addEventListener('DOMContentLoaded', () => {
         reordenarEAtualizarLotes('cards');
         reordenarEAtualizarLotes('emails');
         reordenarEAtualizarLotes('dados');
 
         configurarEventosGerais();
+        carregarConfiguracoesBackup();
+
         mudarAba(appState.abaAtiva, false);
+        
+        atualizarBotaoFiltroVisual('cards');
+        atualizarBotaoFiltroVisual('emails');
+        atualizarBotaoFiltroVisual('dados');
         
         renderizarTodosLotes('cards');
         renderizarTodosLotes('emails');
         renderizarTodosLotes('dados');
         renderizarLixeira();
+
+        if (appState.emails.pastaAberta) {
+            document.getElementById('cardPastaAssinadas').classList.add('aberto');
+        }
+
+        setTimeout(() => { rolarParaUltimoCopiado(appState.abaAtiva); }, 150);
     });
+
+    function carregarConfiguracoesBackup() {
+        const cfg = JSON.parse(localStorage.getItem(CHAVES.configBackup) || '{}');
+        if (cfg.telegramToken) document.getElementById('cfgTelegramToken').value = cfg.telegramToken;
+        if (cfg.telegramChatId) document.getElementById('cfgTelegramChatId').value = cfg.telegramChatId;
+        if (cfg.gmailPara) document.getElementById('cfgGmailPara').value = cfg.gmailPara;
+    }
+
+    function salvarConfiguracoesBackup() {
+        const cfg = {
+            telegramToken: document.getElementById('cfgTelegramToken').value.trim(),
+            telegramChatId: document.getElementById('cfgTelegramChatId').value.trim(),
+            gmailPara: document.getElementById('cfgGmailPara').value.trim()
+        };
+        localStorage.setItem(CHAVES.configBackup, JSON.stringify(cfg));
+    }
 
     function configurarEventosGerais() {
         document.getElementById('nav-btn-cards').onclick = () => mudarAba('cards');
@@ -1077,7 +1214,62 @@
         document.getElementById('nav-btn-dados').onclick = () => mudarAba('dados');
         document.getElementById('nav-btn-config').onclick = () => mudarAba('config');
 
-        document.getElementById('btnImportarCards').onclick = () => adicionarLote('cards');
+        document.getElementById('btnEsvaziarLixeira').onclick = () => {
+            if (appState.lixeira.length === 0) return;
+            mostrarModal('Esvaziar Lixeira', 'Deseja apagar definitivamente todos os itens salvos na lixeira?', () => {
+                appState.lixeira = [];
+                localStorage.setItem(CHAVES.lixeira, JSON.stringify([]));
+                renderizarLixeira();
+                mostrarStatus('Lixeira limpa!');
+            });
+        };
+
+        document.getElementById('cabecalhoPastaAssinadas').onclick = (e) => {
+            if (e.target.id === 'btnConfigSenhaPadrao') return;
+            const pasta = document.getElementById('cardPastaAssinadas');
+            pasta.classList.toggle('aberto');
+            appState.emails.pastaAberta = pasta.classList.contains('aberto');
+            localStorage.setItem(CHAVES.emails.pastaAberta, JSON.stringify(appState.emails.pastaAberta));
+        };
+
+        document.getElementById('btnConfigSenhaPadrao').onclick = () => {
+            const senhaAtual = appState.emails.senhaPadrao || '';
+            const novaSenha = prompt("Digite a senha padrão desejada para as contas ASSINADAS (Deixe em branco para usar a senha original):", senhaAtual);
+            if (novaSenha !== null) {
+                appState.emails.senhaPadrao = novaSenha.trim();
+                localStorage.setItem(CHAVES.emails.senhaPadrao, appState.emails.senhaPadrao);
+                mostrarStatus('🔑 Senha padrão atualizada!');
+            }
+        };
+
+        document.getElementById('btnImportarCards').onclick = () => {
+            const modoLive = document.getElementById('modoMarcarLiveCards').checked;
+            if (modoLive) {
+                marcarCartoesLive();
+            } else {
+                adicionarLote('cards');
+            }
+        };
+
+        document.querySelectorAll('input[name="modoCards"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const isLive = e.target.value === 'live';
+                const btn = document.getElementById('btnImportarCards');
+                const inst = document.getElementById('instrucoesCards');
+                const areaText = document.getElementById('entradaDadosCards');
+
+                if (isLive) {
+                    btn.innerText = '🟢 Marcar Cartões Como LIVE';
+                    inst.innerHTML = 'Cole a lista de cartões LIVE (serão identificados pelos <strong>16 dígitos</strong>):';
+                    areaText.placeholder = 'Cole seus cartões LIVE aqui...';
+                } else {
+                    btn.innerText = 'Importar Cartões';
+                    inst.innerHTML = 'Cole a lista no formato <code>NÚMERO|MÊS|ANO|CVV</code>:';
+                    areaText.placeholder = 'Cole seus cartões aqui...';
+                }
+            });
+        });
+
         document.getElementById('btnImportarEmails').onclick = () => adicionarLote('emails');
         document.getElementById('btnImportarDados').onclick = () => adicionarLote('dados');
 
@@ -1085,22 +1277,312 @@
         document.getElementById('campoPesquisaEmails').oninput = () => filtrarItens('emails');
         document.getElementById('campoPesquisaDados').oninput = () => filtrarItens('dados');
 
+        document.getElementById('btnOcultarUsadosCards').onclick = () => alternarFiltroCards();
+        document.getElementById('btnOcultarUsadosEmails').onclick = () => alternarFiltroEmails('usados');
+        document.getElementById('btnOcultarUsadosDados').onclick = () => alternarFiltroDados();
+
+        document.querySelectorAll('.btn-exp-backup').forEach(b => b.onclick = exportarBackup);
+        document.querySelectorAll('.btn-imp-backup').forEach(b => b.onclick = () => document.getElementById('fileImportGlobal').click());
+        document.getElementById('fileImportGlobal').onchange = importarBackup;
+
+        document.getElementById('btnCopiarSel').onclick = () => {
+            if (modoSelecaoLotesAssinadas) copiarLotesAssinadasSelecionados();
+            else copiarItensSelecionados();
+        };
+        document.getElementById('btnApagarSel').onclick = () => {
+            if (modoSelecaoLotesAssinadas) apagarLotesAssinadasSelecionados();
+            else apagarItensSelecionados();
+        };
+        document.getElementById('btnCancelarSel').onclick = limparSelecao;
+
         document.getElementById('btnModalCancelar').onclick = fecharModal;
         document.getElementById('btnModalConfirmar').onclick = () => {
             if (acaoModalPendente) acaoModalPendente();
             fecharModal();
         };
+
+        document.getElementById('btnEnviarTelegramManual').onclick = enviarTelegramManual;
+        document.getElementById('btnEnviarEmailManual').onclick = enviarEmailManual;
     }
 
     function mudarAba(aba, focarUltimo = true) {
+        limparSelecao();
         appState.abaAtiva = aba;
         localStorage.setItem(CHAVES.abaAtiva, aba);
 
-        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-
+        document.getElementById('view-cards').classList.remove('active');
+        document.getElementById('view-emails').classList.remove('active');
+        document.getElementById('view-dados').classList.remove('active');
+        document.getElementById('view-config').classList.remove('active');
         document.getElementById(`view-${aba}`).classList.add('active');
+
+        document.getElementById('nav-btn-cards').classList.remove('active');
+        document.getElementById('nav-btn-emails').classList.remove('active');
+        document.getElementById('nav-btn-dados').classList.remove('active');
+        document.getElementById('nav-btn-config').classList.remove('active');
         document.getElementById(`nav-btn-${aba}`).classList.add('active');
+
+        if (focarUltimo && aba !== 'config') {
+            setTimeout(() => { rolarParaUltimoCopiado(aba); }, 50);
+        }
+    }
+
+    function rolarParaUltimoCopiado(aba) {
+        const elementoVerde = document.querySelector(`#view-${aba} .btn-copiar.ultimo-copiado, #view-${aba} .btn-copiar-sec.ultimo-copiado`);
+        if (elementoVerde) {
+            elementoVerde.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    function renomearLote(tipo, idLote) {
+        const lote = appState[tipo].lotes.find(l => l.idLote === idLote);
+        if (!lote) return;
+
+        const novoNome = prompt("Digite o novo nome para este card/lote:", lote.nome);
+        if (novoNome !== null && novoNome.trim() !== "") {
+            lote.nome = novoNome.trim();
+            localStorage.setItem(CHAVES[tipo].lotes, JSON.stringify(appState[tipo].lotes));
+            renderizarTodosLotes(tipo);
+            mostrarStatus('✏️ Card renomeado!');
+        }
+    }
+
+    function vincularEventosLinha(tr, idUnico, textToCopy, idLote, idItem) {
+        const aoIniciarToque = () => {
+            timerPressionar = setTimeout(() => {
+                modoSelecaoAtivo = true;
+                alternarSelecaoItem(tr, idUnico, textToCopy, idLote, idItem);
+            }, 400);
+        };
+
+        const aoCancelarToque = () => {
+            if (timerPressionar) {
+                clearTimeout(timerPressionar);
+                timerPressionar = null;
+            }
+        };
+
+        tr.addEventListener('mousedown', aoIniciarToque);
+        tr.addEventListener('mouseup', aoCancelarToque);
+        tr.addEventListener('touchstart', aoIniciarToque, { passive: true });
+        tr.addEventListener('touchend', aoCancelarToque);
+        tr.addEventListener('touchmove', aoCancelarToque, { passive: true });
+        tr.addEventListener('touchcancel', aoCancelarToque);
+
+        tr.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'SELECT') return;
+            if (modoSelecaoAtivo) {
+                alternarSelecaoItem(tr, idUnico, textToCopy, idLote, idItem);
+            }
+        });
+    }
+
+    function vincularEventosCardLoteAssinadas(divLote, idLote) {
+        const aoIniciarToque = () => {
+            timerPressionar = setTimeout(() => {
+                modoSelecaoLotesAssinadas = true;
+                alternarSelecaoLoteAssinadas(divLote, idLote);
+            }, 450);
+        };
+
+        const aoCancelarToque = () => {
+            if (timerPressionar) {
+                clearTimeout(timerPressionar);
+                timerPressionar = null;
+            }
+        };
+
+        divLote.addEventListener('mousedown', aoIniciarToque);
+        divLote.addEventListener('mouseup', aoCancelarToque);
+        divLote.addEventListener('touchstart', aoIniciarToque, { passive: true });
+        divLote.addEventListener('touchend', aoCancelarToque);
+        divLote.addEventListener('touchmove', aoCancelarToque, { passive: true });
+        divLote.addEventListener('touchcancel', aoCancelarToque);
+
+        divLote.addEventListener('click', (e) => {
+            if (modoSelecaoLotesAssinadas) {
+                e.stopPropagation();
+                alternarSelecaoLoteAssinadas(divLote, idLote);
+            }
+        });
+    }
+
+    function alternarSelecaoLoteAssinadas(divLote, idLote) {
+        if (lotesAssinadasSelecionados.has(idLote)) {
+            lotesAssinadasSelecionados.delete(idLote);
+            divLote.classList.remove('card-lote-selecionado');
+        } else {
+            lotesAssinadasSelecionados.add(idLote);
+            divLote.classList.add('card-lote-selecionado');
+        }
+
+        if (lotesAssinadasSelecionados.size === 0) {
+            limparSelecao();
+        } else {
+            const painel = document.getElementById('painelSelecao');
+            document.getElementById('txtQtdSelecionados').innerText = `${lotesAssinadasSelecionados.size} lote(s)`;
+            painel.style.display = 'flex';
+        }
+    }
+
+    function alternarSelecaoItem(elementoTr, idUnico, textoCopiar, idLote, idItem) {
+        if (itensSelecionados.has(idUnico)) {
+            itensSelecionados.delete(idUnico);
+            elementoTr.classList.remove('item-selecionado');
+        } else {
+            itensSelecionados.set(idUnico, { elementoTr, texto: textoCopiar, idLote, idItem });
+            elementoTr.classList.add('item-selecionado');
+        }
+
+        if (itensSelecionados.size === 0) {
+            limparSelecao();
+        } else {
+            atualizarPainelSelecao();
+        }
+    }
+
+    function atualizarPainelSelecao() {
+        const painel = document.getElementById('painelSelecao');
+        document.getElementById('txtQtdSelecionados').innerText = `${itensSelecionados.size} sel.`;
+        painel.style.display = 'flex';
+    }
+
+    function limparSelecao() {
+        itensSelecionados.forEach((val) => {
+            if (val.elementoTr) val.elementoTr.classList.remove('item-selecionado');
+        });
+        itensSelecionados.clear();
+
+        document.querySelectorAll('.card-lote-selecionado').forEach(el => el.classList.remove('card-lote-selecionado'));
+        lotesAssinadasSelecionados.clear();
+
+        modoSelecaoAtivo = false;
+        modoSelecaoLotesAssinadas = false;
+        document.getElementById('painelSelecao').style.display = 'none';
+    }
+
+    function copiarLotesAssinadasSelecionados() {
+        if (lotesAssinadasSelecionados.size === 0) return;
+
+        let textoCompleto = '';
+        let qtdItens = 0;
+        const senhaPadrao = appState.emails.senhaPadrao;
+
+        appState.emails.lotes.forEach(lote => {
+            if (lotesAssinadasSelecionados.has(lote.idLote)) {
+                lote.itens.forEach(item => {
+                    let linha = item.textoCompleto || item.principal;
+                    if (senhaPadrao) {
+                        let delimitador = linha.includes(':') ? ':' : (linha.includes('|') ? '|' : ':');
+                        linha = `${item.principal}${delimitador}${senhaPadrao}`;
+                    }
+                    textoCompleto += linha + '\n';
+                    qtdItens++;
+                });
+            }
+        });
+
+        copiarParaAreaTransferencia(textoCompleto.trim()).then(() => {
+            mostrarStatus(`✅ ${qtdItens} contas dos lotes selecionados copiadas!`);
+            limparSelecao();
+        }).catch(() => alert('❌ Erro ao acessar a área de transferência.'));
+    }
+
+    function apagarLotesAssinadasSelecionados() {
+        if (lotesAssinadasSelecionados.size === 0) return;
+
+        mostrarModal('Mover para Lixeira', `Deseja mover os ${lotesAssinadasSelecionados.size} lotes selecionados para a Lixeira?`, () => {
+            appState.emails.lotes.forEach(l => {
+                if (lotesAssinadasSelecionados.has(l.idLote)) {
+                    l.itens.forEach(i => moverParaLixeira('emails', i, l.nome));
+                }
+            });
+
+            appState.emails.lotes = appState.emails.lotes.filter(l => !lotesAssinadasSelecionados.has(l.idLote));
+            localStorage.setItem(CHAVES.emails.lotes, JSON.stringify(appState.emails.lotes));
+            renderizarTodosLotes('emails');
+            mostrarStatus('Lotes movidos para a lixeira!');
+            limparSelecao();
+        });
+    }
+
+    function copiarItensSelecionados() {
+        if (itensSelecionados.size === 0) return;
+
+        const tipo = appState.abaAtiva;
+        let textoParaClipboard = '';
+        let idsArray = [];
+
+        itensSelecionados.forEach((val, idUnico) => {
+            textoParaClipboard += val.texto + '\n';
+            idsArray.push(idUnico);
+            if (!appState[tipo].usados.includes(idUnico)) {
+                appState[tipo].usados.push(idUnico);
+            }
+        });
+
+        copiarParaAreaTransferencia(textoParaClipboard.trim()).then(() => {
+            localStorage.setItem(CHAVES[tipo].usados, JSON.stringify(appState[tipo].usados));
+
+            if (idsArray.length > 0) {
+                const ultimoId = idsArray[idsArray.length - 1];
+                appState[tipo].ultimo = ultimoId;
+                localStorage.setItem(CHAVES[tipo].ultimo, ultimoId);
+            }
+
+            document.querySelectorAll(`#view-${tipo} .btn-copiar.ultimo-copiado, #view-${tipo} .btn-copiar-sec.ultimo-copiado`).forEach(b => b.classList.remove('ultimo-copiado'));
+
+            idsArray.forEach(id => {
+                const tr = document.getElementById(`tr_${id}`);
+                if (tr) {
+                    const btnBloco = tr.querySelector('.btn-copiar');
+                    const btnCpf = tr.querySelector('.btn-cpf');
+                    
+                    if (btnBloco) {
+                        btnBloco.innerText = 'Usado!';
+                        btnBloco.classList.add('usado');
+                        if (id === appState[tipo].ultimo) btnBloco.classList.add('ultimo-copiado');
+                    }
+                    if (btnCpf) {
+                        btnCpf.innerText = 'CPF!';
+                        btnCpf.classList.add('usado');
+                        if (id === appState[tipo].ultimo) btnCpf.classList.add('ultimo-copiado');
+                    }
+                }
+            });
+
+            mostrarStatus(`✅ ${idsArray.length} itens copiados!`);
+            atualizarPainelSelecao();
+            if (appState[tipo].ocultar) filtrarItens(tipo);
+        }).catch(() => alert('❌ Erro ao acessar a área de transferência.'));
+    }
+
+    function apagarItensSelecionados() {
+        if (itensSelecionados.size === 0) return;
+
+        mostrarModal('Mover para Lixeira', `Deseja mover os ${itensSelecionados.size} itens selecionados para a Lixeira?`, () => {
+            const tipo = appState.abaAtiva;
+
+            itensSelecionados.forEach((val, idUnico) => {
+                const lote = appState[tipo].lotes.find(l => l.idLote === val.idLote);
+                if (lote) {
+                    const itemRem = lote.itens.find(i => i.idItem === val.idItem);
+                    if (itemRem) moverParaLixeira(tipo, itemRem, lote.nome);
+                    lote.itens = lote.itens.filter(i => i.idItem !== val.idItem);
+                }
+                appState[tipo].usados = appState[tipo].usados.filter(id => id !== idUnico);
+            });
+
+            reordenarEAtualizarLotes(tipo);
+            localStorage.setItem(CHAVES[tipo].lotes, JSON.stringify(appState[tipo].lotes));
+            localStorage.setItem(CHAVES[tipo].usados, JSON.stringify(appState[tipo].usados));
+
+            renderizarTodosLotes(tipo);
+            mostrarStatus('Itens movidos para a lixeira!');
+            limparSelecao();
+        });
     }
 
     function extrairBlocosPessoas(texto) {
@@ -1122,7 +1604,9 @@
             blocoAtual.push(l);
         });
 
-        if (blocoAtual.length > 0) blocos.push(blocoAtual.join('\n'));
+        if (blocoAtual.length > 0) {
+            blocos.push(blocoAtual.join('\n'));
+        }
 
         blocos.forEach((textoBloco) => {
             let cpf = '', nome = '', nascimento = '', sexo = '';
@@ -1152,6 +1636,7 @@
         return itens;
     }
 
+    /* ADICIONAR LOTE COM BLOQUEIO DE DUPLICADOS */
     function adicionarLote(tipo) {
         const campoId = tipo === 'cards' ? 'entradaDadosCards' : (tipo === 'emails' ? 'entradaDadosEmails' : 'entradaDadosPessoas');
         const campo = document.getElementById(campoId);
@@ -1160,6 +1645,20 @@
         if (!texto) {
             alert('Cole uma lista antes de importar.');
             return;
+        }
+
+        if (texto.startsWith('{') || texto.startsWith('[')) {
+            try {
+                const parsedJson = JSON.parse(texto);
+                if (parsedJson.lotes && Array.isArray(parsedJson.lotes)) {
+                    parsedJson.lotes.forEach(loteImportado => appState[tipo].lotes.unshift(loteImportado));
+                    reordenarEAtualizarLotes(tipo);
+                    renderizarTodosLotes(tipo);
+                    campo.value = '';
+                    mostrarStatus('Lotes importados com sucesso!');
+                    return;
+                }
+            } catch (err) {}
         }
 
         // Mapeia os existentes para prevenir duplicados
@@ -1174,6 +1673,12 @@
 
         let itens = [];
         let ignoradosRepetidos = 0;
+        let statusImportacao = 'virgem';
+
+        if (tipo === 'emails') {
+            const selectEl = document.getElementById('selectStatusImport');
+            if (selectEl) statusImportacao = selectEl.value;
+        }
 
         if (tipo === 'dados') {
             const todosExtraidos = extrairBlocosPessoas(texto);
@@ -1203,7 +1708,7 @@
                         return;
                     }
                     existentes.add(numero);
-
+                    
                     itens.push({
                         idItem: contador++,
                         principal: numero,
@@ -1231,14 +1736,18 @@
                         secundario: partes[1] ? partes[1].trim() : '-',
                         terciario: '',
                         textoCompleto: l,
-                        status: 'virgem'
+                        status: statusImportacao
                     });
                 }
             });
         }
 
         if (itens.length === 0) {
-            alert(`⚠️ Nenhum registro novo importado. (${ignoradosRepetidos} duplicados ignorados)`);
+            if (ignoradosRepetidos > 0) {
+                alert(`⚠️ Todos os ${ignoradosRepetidos} itens da lista já existem nas suas listas!`);
+            } else {
+                alert('Nenhum dado válido foi identificado.');
+            }
             return;
         }
 
@@ -1253,37 +1762,393 @@
         reordenarEAtualizarLotes(tipo);
         localStorage.setItem(CHAVES[tipo].lotes, JSON.stringify(appState[tipo].lotes));
 
+        if (tipo === 'emails') {
+            itens.forEach(item => {
+                const emailChave = item.principal.toLowerCase();
+                appState.emails.status[emailChave] = statusImportacao;
+            });
+            localStorage.setItem(CHAVES[tipo].status, JSON.stringify(appState.emails.status));
+        }
+
         campo.value = '';
         renderizarTodosLotes(tipo);
-        mostrarStatus(`✅ ${itens.length} importados! (${ignoradosRepetidos} ignorados)`);
+
+        let msg = `Importado com sucesso (${itens.length})!`;
+        if (ignoradosRepetidos > 0) msg += ` ⚠️ ${ignoradosRepetidos} duplicados ignorados.`;
+        mostrarStatus(msg);
+    }
+
+    function marcarCartoesLive() {
+        const campo = document.getElementById('entradaDadosCards');
+        const texto = campo.value.trim();
+
+        if (!texto) {
+            alert('Cole a lista de cartões LIVE para marcar.');
+            return;
+        }
+
+        const cartoesLiveEncontrados = new Set();
+        const numerosExtraidos = texto.match(/\b\d{16}\b/g) || [];
+
+        if (numerosExtraidos.length === 0) {
+            const linhas = texto.split(/\r?\n/);
+            linhas.forEach(l => {
+                const apenasDigitos = l.replace(/\D/g, '');
+                if (apenasDigitos.length >= 16) {
+                    cartoesLiveEncontrados.add(apenasDigitos.substring(0, 16));
+                }
+            });
+        } else {
+            numerosExtraidos.forEach(num => cartoesLiveEncontrados.add(num));
+        }
+
+        if (cartoesLiveEncontrados.size === 0) {
+            alert('⚠️ Nenhum número de cartão com 16 dígitos foi encontrado no texto.');
+            return;
+        }
+
+        let marcadosComSucesso = 0;
+
+        appState.cards.lotes.forEach(lote => {
+            lote.itens.forEach(item => {
+                const numCardLimpo = item.principal ? item.principal.replace(/\D/g, '') : '';
+                if (numCardLimpo && cartoesLiveEncontrados.has(numCardLimpo)) {
+                    if (item.statusCard !== 'live') {
+                        item.statusCard = 'live';
+                        marcadosComSucesso++;
+                    }
+                }
+            });
+        });
+
+        if (marcadosComSucesso > 0) {
+            localStorage.setItem(CHAVES.cards.lotes, JSON.stringify(appState.cards.lotes));
+            renderizarTodosLotes('cards');
+            campo.value = '';
+            alert(`🟢 Sucesso! ${marcadosComSucesso} cartão(ões) foram marcados como LIVE!`);
+        } else {
+            alert('⚠️ Nenhum dos cartões colados foi encontrado nas listas importadas anteriores.');
+        }
+    }
+
+    function alternarLote(tipo, idLote) {
+        const index = appState[tipo].abertos.indexOf(idLote);
+        if (index > -1) {
+            appState[tipo].abertos.splice(index, 1);
+        } else {
+            appState[tipo].abertos.push(idLote);
+        }
+        
+        localStorage.setItem(CHAVES[tipo].abertos, JSON.stringify(appState[tipo].abertos));
+        const elemento = document.getElementById(`lote_${tipo}_${idLote}`);
+        if (elemento) {
+            elemento.classList.toggle('aberto');
+        }
+    }
+
+    function excluirLote(tipo, idLote) {
+        mostrarModal('Mover para Lixeira', 'Deseja mover esta extração inteira para a Lixeira?', () => {
+            const lote = appState[tipo].lotes.find(l => l.idLote === idLote);
+            if (lote) {
+                lote.itens.forEach(item => moverParaLixeira(tipo, item, lote.nome));
+            }
+            appState[tipo].lotes = appState[tipo].lotes.filter(l => l.idLote !== idLote);
+            appState[tipo].abertos = appState[tipo].abertos.filter(id => id !== idLote);
+            localStorage.setItem(CHAVES[tipo].lotes, JSON.stringify(appState[tipo].lotes));
+            localStorage.setItem(CHAVES[tipo].abertos, JSON.stringify(appState[tipo].abertos));
+            renderizarTodosLotes(tipo);
+            mostrarStatus('Lote movido para a lixeira!');
+        });
+    }
+
+    function copiarTodosCartoesLote(idLote) {
+        const lote = appState.cards.lotes.find(l => l.idLote === idLote);
+        if (!lote || !lote.itens || lote.itens.length === 0) return;
+
+        let textoCompleto = '';
+        let quantidadeCopiada = 0;
+
+        lote.itens.forEach(item => {
+            const idUnico = `item_cards_${lote.idLote}_${item.idItem}`;
+            const trElemento = document.getElementById(`tr_${idUnico}`);
+
+            if (trElemento && !trElemento.classList.contains('linha-oculta')) {
+                textoCompleto += (item.textoCompleto || item.principal) + '\n';
+                quantidadeCopiada++;
+                if (!appState.cards.usados.includes(idUnico)) {
+                    appState.cards.usados.push(idUnico);
+                }
+            }
+        });
+
+        if (quantidadeCopiada === 0) {
+            alert('⚠️ Nenhum cartão visível para copiar.');
+            return;
+        }
+
+        copiarParaAreaTransferencia(textoCompleto.trim()).then(() => {
+            localStorage.setItem(CHAVES.cards.usados, JSON.stringify(appState.cards.usados));
+            renderizarTodosLotes('cards');
+            mostrarStatus(`✅ ${quantidadeCopiada} cartões visíveis copiados!`);
+        }).catch(() => alert('❌ Erro ao acessar a área de transferência.'));
+    }
+
+    function copiarTodosEmailsLote(idLote) {
+        const lote = appState.emails.lotes.find(l => l.idLote === idLote);
+        if (!lote || !lote.itens || lote.itens.length === 0) return;
+
+        let textoCompleto = '';
+        let quantidadeCopiada = 0;
+
+        const senhaPadrao = appState.emails.senhaPadrao;
+
+        lote.itens.forEach(item => {
+            const idUnico = `item_emails_${lote.idLote}_${item.idItem}`;
+            const trElemento = document.getElementById(`tr_${idUnico}`);
+
+            if (trElemento && !trElemento.classList.contains('linha-oculta')) {
+                let linha = item.textoCompleto || item.principal;
+                if (senhaPadrao) {
+                    let delimitador = linha.includes(':') ? ':' : (linha.includes('|') ? '|' : ':');
+                    linha = `${item.principal}${delimitador}${senhaPadrao}`;
+                }
+
+                textoCompleto += linha + '\n';
+                quantidadeCopiada++;
+                if (!appState.emails.usados.includes(idUnico)) {
+                    appState.emails.usados.push(idUnico);
+                }
+            }
+        });
+
+        if (quantidadeCopiada === 0) {
+            alert('⚠️ Nenhum item visível para copiar.');
+            return;
+        }
+
+        copiarParaAreaTransferencia(textoCompleto.trim()).then(() => {
+            localStorage.setItem(CHAVES.emails.usados, JSON.stringify(appState.emails.usados));
+            renderizarTodosLotes('emails');
+            mostrarStatus(`✅ ${quantidadeCopiada} conta(s) copiada(s)!`);
+        }).catch(() => alert('❌ Erro ao acessar a área de transferência.'));
     }
 
     function excluirItem(tipo, idLote, idItem) {
-        mostrarModal('Apagar Item', 'Deseja mover este item para a Lixeira?', () => {
+        mostrarModal('Mover para Lixeira', 'Deseja mover este item para a Lixeira?', () => {
             const lote = appState[tipo].lotes.find(l => l.idLote === idLote);
             if (lote) {
                 const itemRemovido = lote.itens.find(i => i.idItem === idItem);
-                if (itemRemovido) {
-                    moverParaLixeira(tipo, itemRemovido, lote.nome);
-                    lote.itens = lote.itens.filter(i => i.idItem !== idItem);
-                    reordenarEAtualizarLotes(tipo);
-                    localStorage.setItem(CHAVES[tipo].lotes, JSON.stringify(appState[tipo].lotes));
-                    renderizarTodosLotes(tipo);
-                    mostrarStatus('Item movido para a lixeira!');
-                }
+                if (itemRemovido) moverParaLixeira(tipo, itemRemovido, lote.nome);
+
+                lote.itens = lote.itens.filter(i => i.idItem !== idItem);
+                reordenarEAtualizarLotes(tipo);
+
+                const idUnico = `item_${tipo}_${idLote}_${idItem}`;
+                appState[tipo].usados = appState[tipo].usados.filter(id => id !== idUnico);
+
+                localStorage.setItem(CHAVES[tipo].lotes, JSON.stringify(appState[tipo].lotes));
+                localStorage.setItem(CHAVES[tipo].usados, JSON.stringify(appState[tipo].usados));
+                
+                renderizarTodosLotes(tipo);
+                mostrarStatus('Item movido para a lixeira!');
             }
         });
     }
 
-    function excluirLote(tipo, idLote) {
-        mostrarModal('Apagar Lote', 'Deseja mover este lote inteiro para a Lixeira?', () => {
-            const lote = appState[tipo].lotes.find(l => l.idLote === idLote);
-            if (lote) {
-                lote.itens.forEach(item => moverParaLixeira(tipo, item, lote.nome));
-                appState[tipo].lotes = appState[tipo].lotes.filter(l => l.idLote !== idLote);
-                localStorage.setItem(CHAVES[tipo].lotes, JSON.stringify(appState[tipo].lotes));
-                renderizarTodosLotes(tipo);
-                mostrarStatus('Lote enviado para a lixeira!');
+    function copiarAssinadasDoLote(idLote) {
+        const lote = appState.emails.lotes.find(l => l.idLote === idLote);
+        if (!lote) return;
+
+        const emailsJaEmAssinadas = new Set();
+        appState.emails.lotes.forEach(l => {
+            if (l.nome && l.nome.startsWith('ASSINADAS')) {
+                l.itens.forEach(i => {
+                    if (i.principal) emailsJaEmAssinadas.add(i.principal.toLowerCase().trim());
+                });
+            }
+        });
+
+        const statusPermitidos = ['padrao', 'premium', 'assinada'];
+        const itensParaMover = [];
+        const itensManter = [];
+
+        lote.itens.forEach(item => {
+            const emailChave = item.principal.toLowerCase().trim();
+            const statusAtual = appState.emails.status[emailChave] || item.status || '';
+
+            if (statusPermitidos.includes(statusAtual)) {
+                if (!emailsJaEmAssinadas.has(emailChave)) {
+                    itensParaMover.push({
+                        ...item,
+                        statusAtual: statusAtual
+                    });
+                    emailsJaEmAssinadas.add(emailChave);
+                }
+            } else {
+                itensManter.push(item);
+            }
+        });
+
+        if (itensParaMover.length === 0) {
+            const existiaComStatus = lote.itens.some(item => {
+                const emailChave = item.principal.toLowerCase().trim();
+                const statusAtual = appState.emails.status[emailChave] || item.status || '';
+                return statusPermitidos.includes(statusAtual);
+            });
+
+            if (existiaComStatus) {
+                alert('⚠️ As contas deste lote já foram movidas anteriormente para uma pasta ASSINADAS.');
+            } else {
+                alert('⚠️ Nenhuma conta com status "Padrão", "Premium" ou "Assinada" foi encontrada neste lote.');
+            }
+            return;
+        }
+
+        let textoParaClipboard = '';
+        itensParaMover.forEach(item => {
+            textoParaClipboard += item.textoCompleto + '\n';
+        });
+
+        copiarParaAreaTransferencia(textoParaClipboard.trim()).then(() => {
+            lote.itens = itensManter;
+
+            const itensNovosLote = itensParaMover.map((item, idx) => ({
+                idItem: idx + 1,
+                principal: item.principal,
+                secundario: item.secundario,
+                terciario: '',
+                textoCompleto: item.textoCompleto,
+                status: item.statusAtual
+            }));
+
+            itensParaMover.forEach(item => {
+                const emailChave = item.principal.toLowerCase().trim();
+                appState.emails.status[emailChave] = item.statusAtual;
+            });
+
+            const novoLoteAssinadas = {
+                idLote: Date.now(),
+                nome: `ASSINADAS • ${gerarDataHoraFormatada()}`,
+                banner: BANNERS[appState.emails.lotes.length % BANNERS.length],
+                itens: itensNovosLote
+            };
+
+            appState.emails.lotes.unshift(novoLoteAssinadas);
+
+            reordenarEAtualizarLotes('emails');
+            localStorage.setItem(CHAVES.emails.lotes, JSON.stringify(appState.emails.lotes));
+            localStorage.setItem(CHAVES.emails.status, JSON.stringify(appState.emails.status));
+
+            renderizarTodosLotes('emails');
+            mostrarStatus(`✅ ${itensParaMover.length} conta(s) movida(s) para a pasta ASSINADAS!`);
+        }).catch(() => alert('❌ Erro ao acessar a área de transferência.'));
+    }
+
+    function alternarFiltroCards() {
+        appState.cards.ocultar = !appState.cards.ocultar;
+        localStorage.setItem(CHAVES.cards.ocultar, JSON.stringify(appState.cards.ocultar));
+        atualizarBotaoFiltroVisual('cards');
+        filtrarItens('cards');
+    }
+
+    function alternarFiltroDados() {
+        appState.dados.ocultar = !appState.dados.ocultar;
+        localStorage.setItem(CHAVES.dados.ocultar, JSON.stringify(appState.dados.ocultar));
+        atualizarBotaoFiltroVisual('dados');
+        filtrarItens('dados');
+    }
+
+    function alternarFiltroEmails(filtro) {
+        if (filtro === 'usados') {
+            appState.emails.ocultar = !appState.emails.ocultar;
+            localStorage.setItem(CHAVES.emails.ocultar, JSON.stringify(appState.emails.ocultar));
+        }
+        atualizarBotaoFiltroVisual('emails');
+        filtrarItens('emails');
+    }
+
+    function atualizarBotaoFiltroVisual(tipo) {
+        if (tipo === 'cards') {
+            const btn = document.getElementById('btnOcultarUsadosCards');
+            btn.innerText = appState.cards.ocultar ? 'Mostrar Usados' : 'Ocultar Usados';
+            btn.classList.toggle('ativo', appState.cards.ocultar);
+        } else if (tipo === 'dados') {
+            const btn = document.getElementById('btnOcultarUsadosDados');
+            btn.innerText = appState.dados.ocultar ? 'Mostrar Usados' : 'Ocultar Usados';
+            btn.classList.toggle('ativo', appState.dados.ocultar);
+        } else {
+            const btnU = document.getElementById('btnOcultarUsadosEmails');
+            btnU.innerText = appState.emails.ocultar ? 'Mostrar Usados' : 'Ocultar Usados';
+            btnU.classList.toggle('ativo', appState.emails.ocultar);
+        }
+    }
+
+    function mudarStatusItemEmail(idLote, idItem, emailText, novoStatus) {
+        const emailChave = emailText.toLowerCase();
+        
+        appState.emails.status[emailChave] = novoStatus;
+        localStorage.setItem(CHAVES.emails.status, JSON.stringify(appState.emails.status));
+
+        const lote = appState.emails.lotes.find(l => l.idLote === idLote);
+        if (lote) {
+            const item = lote.itens.find(i => i.idItem === idItem);
+            if (item) {
+                item.status = novoStatus;
+                localStorage.setItem(CHAVES.emails.lotes, JSON.stringify(appState.emails.lotes));
+            }
+        }
+
+        filtrarItens('emails');
+    }
+
+    function mudarStatusItemCard(idLote, idItem, novoStatus) {
+        const lote = appState.cards.lotes.find(l => l.idLote === idLote);
+        if (lote) {
+            const item = lote.itens.find(i => i.idItem === idItem);
+            if (item) {
+                item.statusCard = novoStatus;
+                localStorage.setItem(CHAVES.cards.lotes, JSON.stringify(appState.cards.lotes));
+            }
+        }
+    }
+
+    function filtrarItens(tipo) {
+        const campoId = tipo === 'cards' ? 'campoPesquisaCards' : (tipo === 'emails' ? 'campoPesquisaEmails' : 'campoPesquisaDados');
+        const termo = document.getElementById(campoId).value.trim().toLowerCase();
+        const ultimoId = appState[tipo].ultimo;
+
+        appState[tipo].lotes.forEach(lote => {
+            const cardElemento = document.getElementById(`lote_${tipo}_${lote.idLote}`);
+            if (!cardElemento) return;
+
+            let linhasVisiveisNoLote = 0;
+
+            lote.itens.forEach(item => {
+                const idUnico = `item_${tipo}_${lote.idLote}_${item.idItem}`;
+                const jaFoiUsado = appState[tipo].usados.includes(idUnico);
+                const ehOUltimoCopiado = (idUnico === ultimoId);
+                const trElemento = document.getElementById(`tr_${idUnico}`);
+
+                if (!trElemento) return;
+
+                const textoBusca = (item.principal + ' ' + (item.secundario || '') + ' ' + (item.cpfLimpo || '')).toLowerCase();
+                const atendePesquisa = termo === '' || textoBusca.includes(termo);
+                let atendeFiltroUsado = !appState[tipo].ocultar || !jaFoiUsado || ehOUltimoCopiado;
+
+                if (atendePesquisa && atendeFiltroUsado) {
+                    trElemento.classList.remove('linha-oculta');
+                    linhasVisiveisNoLote++;
+                } else {
+                    trElemento.classList.add('linha-oculta');
+                }
+            });
+
+            if (termo !== '' && linhasVisiveisNoLote > 0) cardElemento.classList.add('aberto');
+
+            if (linhasVisiveisNoLote === 0 && (termo !== '' || appState[tipo].ocultar)) {
+                cardElemento.style.display = 'none';
+            } else {
+                cardElemento.style.display = 'block';
             }
         });
     }
@@ -1293,64 +2158,417 @@
         const area = document.getElementById(areaId);
         area.innerHTML = '';
 
+        if (tipo === 'emails') {
+            document.getElementById('areaLotesAssinadas').innerHTML = '';
+        }
+
+        let totalLotesAssinadas = 0;
+
         appState[tipo].lotes.forEach(lote => {
+            const ehAssinada = tipo === 'emails' && lote.nome.startsWith('ASSINADAS');
+            if (ehAssinada) totalLotesAssinadas++;
+
+            const estaAberto = appState[tipo].abertos.includes(lote.idLote);
             const divLote = document.createElement('div');
-            divLote.className = 'card-lote aberto';
+            divLote.className = `card-lote ${estaAberto ? 'aberto' : ''}`;
             divLote.id = `lote_${tipo}_${lote.idLote}`;
 
-            divLote.innerHTML = `
-                <div class="banner-lote" style="background-image: url('${lote.banner}')">
-                    <div class="banner-overlay"></div>
-                    <div class="cabecalho-lote">
-                        <div class="info-lote">
-                            <span>${lote.nome}</span>
-                            <span class="qtd-badge">${lote.itens.length}</span>
-                        </div>
-                        <div class="grupo-botoes-cabecalho">
-                            <button class="btn-acao-lote" onclick="excluirLote('${tipo}', ${lote.idLote})">Apagar</button>
-                        </div>
+            if (ehAssinada) {
+                vincularEventosCardLoteAssinadas(divLote, lote.idLote);
+            }
+
+            const bannerDiv = document.createElement('div');
+            bannerDiv.className = 'banner-lote';
+            bannerDiv.style.backgroundImage = `url('${lote.banner}')`;
+            bannerDiv.onclick = (e) => {
+                if (e.target.tagName === 'BUTTON' || e.target.closest('button')) return;
+                alternarLote(tipo, lote.idLote);
+            };
+
+            bannerDiv.innerHTML = `
+                <div class="banner-overlay"></div>
+                <div class="cabecalho-lote">
+                    <div class="info-lote">
+                        <span class="icone-seta">▼</span>
+                        <span>${lote.nome}</span>
+                        <span class="qtd-badge">${lote.itens.length}</span>
                     </div>
-                </div>
-                <div class="conteudo-lote">
-                    <div class="tabela-container">
-                        <table>
-                            <tbody>
-                                ${lote.itens.map(item => `
-                                    <tr class="linha-item">
-                                        <td><span class="badge-id">${item.idItem}</span></td>
-                                        <td class="email-text"><strong>${item.principal}</strong></td>
-                                        <td class="cartao-num">${item.secundario}</td>
-                                        <td class="email-text">${item.terciario || ''}</td>
-                                        <td>
-                                            <button class="btn-excluir-item" onclick="excluirItem('${tipo}', ${lote.idLote},${item.idItem})">🗑️</button>
-                                        </td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
+                    <div class="grupo-botoes-cabecalho" id="botoesCab_${tipo}_${lote.idLote}"></div>
                 </div>
             `;
-            area.appendChild(divLote);
+            divLote.appendChild(bannerDiv);
+
+            const btnGrupo = bannerDiv.querySelector(`#botoesCab_${tipo}_${lote.idLote}`);
+            
+            const btnRenomearL = document.createElement('button');
+            btnRenomearL.className = 'btn-acao-lote';
+            btnRenomearL.innerText = '✏️ Renomear';
+            btnRenomearL.onclick = (e) => { e.stopPropagation(); renomearLote(tipo, lote.idLote); };
+            btnGrupo.appendChild(btnRenomearL);
+
+            if (tipo === 'cards') {
+                const btnCopiarT = document.createElement('button');
+                btnCopiarT.className = 'btn-acao-lote btn-copiar-lote';
+                btnCopiarT.innerText = 'Copiar Todas';
+                btnCopiarT.onclick = (e) => { e.stopPropagation(); copiarTodosCartoesLote(lote.idLote); };
+
+                const btnApagarL = document.createElement('button');
+                btnApagarL.className = 'btn-acao-lote';
+                btnApagarL.innerText = 'Apagar';
+                btnApagarL.onclick = (e) => { e.stopPropagation(); excluirLote(tipo, lote.idLote); };
+
+                btnGrupo.appendChild(btnCopiarT);
+                btnGrupo.appendChild(btnApagarL);
+            } else if (tipo === 'emails') {
+                if (!ehAssinada) {
+                    const btnCopiarA = document.createElement('button');
+                    btnCopiarA.className = 'btn-acao-lote btn-copiar-lote';
+                    btnCopiarA.innerText = 'Mover Assinadas';
+                    btnCopiarA.onclick = (e) => { e.stopPropagation(); copiarAssinadasDoLote(lote.idLote); };
+                    btnGrupo.appendChild(btnCopiarA);
+                } else {
+                    const btnCopiarTodasAssinadas = document.createElement('button');
+                    btnCopiarTodasAssinadas.className = 'btn-acao-lote btn-copiar-lote';
+                    btnCopiarTodasAssinadas.innerText = 'Copiar Todas';
+                    btnCopiarTodasAssinadas.onclick = (e) => { e.stopPropagation(); copiarTodosEmailsLote(lote.idLote); };
+                    btnGrupo.appendChild(btnCopiarTodasAssinadas);
+                }
+                const btnApagarL = document.createElement('button');
+                btnApagarL.className = 'btn-acao-lote';
+                btnApagarL.innerText = 'Apagar';
+                btnApagarL.onclick = (e) => { e.stopPropagation(); excluirLote(tipo, lote.idLote); };
+                btnGrupo.appendChild(btnApagarL);
+            } else {
+                const btnApagarL = document.createElement('button');
+                btnApagarL.className = 'btn-acao-lote';
+                btnApagarL.innerText = 'Apagar';
+                btnApagarL.onclick = (e) => { e.stopPropagation(); excluirLote(tipo, lote.idLote); };
+                btnGrupo.appendChild(btnApagarL);
+            }
+
+            const conteudoDiv = document.createElement('div');
+            conteudoDiv.className = 'conteudo-lote';
+            
+            const tabelaContainer = document.createElement('div');
+            tabelaContainer.className = 'tabela-container';
+            
+            const tabela = document.createElement('table');
+            let theadText = `<tr><th>Nº</th><th>Cartão</th><th>Val</th><th>CVV</th><th>Ação</th></tr>`;
+            if (tipo === 'emails') theadText = `<tr><th>Nº</th><th>Email/Login</th><th>Senha</th><th>Status</th><th>Ações</th></tr>`;
+            if (tipo === 'dados') theadText = `<tr><th>Nº</th><th>Nome / Dados</th><th>CPF</th><th>Nasc / Sexo</th><th>Ações</th></tr>`;
+            
+            tabela.innerHTML = `<thead>${theadText}</thead>`;
+
+            const tbody = document.createElement('tbody');
+
+            lote.itens.forEach((item, index) => {
+                const idUnico = `item_${tipo}_${lote.idLote}_${item.idItem}`;
+                const jaFoiUsado = appState[tipo].usados.includes(idUnico);
+                const ehUltimo = (idUnico === appState[tipo].ultimo);
+                
+                let classeStatus = 'btn-copiar';
+                let textoBotao = 'Copiar';
+                
+                if (jaFoiUsado) { classeStatus += ' usado'; textoBotao = 'Usado!'; }
+                if (ehUltimo) { classeStatus += ' ultimo-copiado'; }
+
+                const tr = document.createElement('tr');
+                tr.id = `tr_${idUnico}`;
+                tr.className = `linha-item ${index > 0 ? 'linha-secundaria' : ''}`;
+
+                let textToCopy = tipo === 'cards' ? item.principal : item.textoCompleto;
+                if (tipo === 'emails' && appState.emails.senhaPadrao) {
+                    let delimitador = textToCopy.includes(':') ? ':' : (textToCopy.includes('|') ? '|' : ':');
+                    textToCopy = `${item.principal}${delimitador}${appState.emails.senhaPadrao}`;
+                }
+
+                vincularEventosLinha(tr, idUnico, textToCopy, lote.idLote, item.idItem);
+
+                if (tipo === 'cards') {
+                    const stCard = item.statusCard || (item.isLive ? 'live' : 'pendente');
+
+                    tr.innerHTML = `
+                        <td><span class="badge-id">${item.idItem}</span></td>
+                        <td>
+                            <span class="cartao-num">${item.principal}</span>
+                            <button class="${classeStatus}" data-id="${idUnico}">${textoBotao}</button>
+                        </td>
+                        <td>${item.secundario}</td>
+                        <td>
+                            ${item.terciario}
+                            <select class="status-card-select">
+                                <option value="pendente" ${stCard === 'pendente' ? 'selected' : ''}>⏳</option>
+                                <option value="live" ${stCard === 'live' ? 'selected' : ''}>✅</option>
+                                <option value="die" ${stCard === 'die' ? 'selected' : ''}>❌</option>
+                            </select>
+                        </td>
+                        <td><button class="btn-excluir-item">🗑️</button></td>
+                    `;
+
+                    tr.querySelector('.status-card-select').onchange = (e) => mudarStatusItemCard(lote.idLote, item.idItem, e.target.value);
+                    tr.querySelector('.btn-copiar').onclick = (e) => copiarTexto(e.target, tipo, textToCopy, e, idUnico);
+                    tr.querySelector('.btn-excluir-item').onclick = (e) => { e.stopPropagation(); excluirItem(tipo, lote.idLote, item.idItem); };
+                } else if (tipo === 'emails') {
+                    const emailChave = item.principal.toLowerCase();
+                    const statusAtual = appState.emails.status[emailChave] || item.status || '';
+
+                    tr.innerHTML = `
+                        <td><span class="badge-id">${item.idItem}</span></td>
+                        <td class="email-text">${item.principal}</td>
+                        <td class="email-text">${appState.emails.senhaPadrao || item.secundario}</td>
+                        <td>
+                            <select class="status-select">
+                                <option value="" ${statusAtual === '' ? 'selected' : ''}>-</option>
+                                <option value="virgem" ${statusAtual === 'virgem' ? 'selected' : ''}>Virgem</option>
+                                <option value="suspensa" ${statusAtual === 'suspensa' ? 'selected' : ''}>Suspensa</option>
+                                <option value="assinada" ${statusAtual === 'assinada' ? 'selected' : ''}>Assinada</option>
+                                <option value="anuncios" ${statusAtual === 'anuncios' ? 'selected' : ''}>Anúncios</option>
+                                <option value="padrao" ${statusAtual === 'padrao' ? 'selected' : ''}>Padrão</option>
+                                <option value="premium" ${statusAtual === 'premium' ? 'selected' : ''}>Premium</option>
+                                <option value="queimada" ${statusAtual === 'queimada' ? 'selected' : ''}>Queimada</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="${classeStatus}" data-id="${idUnico}">${textoBotao}</button>
+                            <button class="btn-excluir-item">🗑️</button>
+                        </td>
+                    `;
+
+                    tr.querySelector('.status-select').onchange = (e) => mudarStatusItemEmail(lote.idLote, item.idItem, item.principal, e.target.value);
+                    tr.querySelector('.btn-copiar').onclick = (e) => copiarTexto(e.target, tipo, textToCopy, e, idUnico);
+                    tr.querySelector('.btn-excluir-item').onclick = (e) => { e.stopPropagation(); excluirItem(tipo, lote.idLote, item.idItem); };
+                } else {
+                    let classeCpf = 'btn-copiar-sec btn-cpf';
+                    let textoCpf = 'CPF';
+                    if (jaFoiUsado) { classeCpf += ' usado'; textoCpf = 'CPF!'; }
+                    if (ehUltimo) { classeCpf += ' ultimo-copiado'; }
+
+                    tr.innerHTML = `
+                        <td><span class="badge-id">${item.idItem}</span></td>
+                        <td class="email-text"><strong>${item.principal}</strong></td>
+                        <td class="cartao-num">${item.secundario}</td>
+                        <td class="email-text">${item.terciario}</td>
+                        <td>
+                            ${item.cpfLimpo ? `<button class="${classeCpf}" data-id="${idUnico}">${textoCpf}</button>` : ''}
+                            <button class="${classeStatus}" data-id="${idUnico}">Bloco</button>
+                            <button class="btn-excluir-item">🗑️</button>
+                        </td>
+                    `;
+
+                    if (item.cpfLimpo) {
+                        tr.querySelector('.btn-cpf').onclick = (e) => copiarTexto(e.target, tipo, item.cpfLimpo, e, idUnico);
+                    }
+                    tr.querySelector('.btn-copiar').onclick = (e) => copiarTexto(e.target, tipo, item.textoCompleto, e, idUnico);
+                    tr.querySelector('.btn-excluir-item').onclick = (e) => { e.stopPropagation(); excluirItem(tipo, lote.idLote, item.idItem); };
+                }
+
+                tbody.appendChild(tr);
+            });
+
+            tabela.appendChild(tbody);
+            tabelaContainer.appendChild(tabela);
+            conteudoDiv.appendChild(tabelaContainer);
+            divLote.appendChild(conteudoDiv);
+
+            if (ehAssinada) {
+                document.getElementById('areaLotesAssinadas').appendChild(divLote);
+            } else {
+                area.appendChild(divLote);
+            }
+        });
+
+        if (tipo === 'emails') {
+            document.getElementById('qtdLotesAssinadas').innerText = totalLotesAssinadas;
+            document.getElementById('cardPastaAssinadas').style.display = totalLotesAssinadas > 0 ? 'block' : 'none';
+        }
+
+        filtrarItens(tipo);
+    }
+
+    function copiarTexto(botao, tipo, texto, e, idUnico) {
+        if (e) e.stopPropagation();
+        copiarParaAreaTransferencia(texto).then(() => {
+            const id = idUnico || botao.getAttribute('data-id');
+
+            document.querySelectorAll(`#view-${tipo} .btn-copiar.ultimo-copiado, #view-${tipo} .btn-copiar-sec.ultimo-copiado`).forEach(btn => {
+                btn.classList.remove('ultimo-copiado');
+            });
+
+            const tr = document.getElementById(`tr_${id}`);
+            if (tr && tipo === 'dados') {
+                const btnBloco = tr.querySelector('.btn-copiar');
+                const btnCpf = tr.querySelector('.btn-cpf');
+                
+                if (btnBloco) {
+                    btnBloco.innerText = 'Usado!';
+                    btnBloco.classList.add('usado');
+                    if (botao === btnBloco) btnBloco.classList.add('ultimo-copiado');
+                }
+                if (btnCpf) {
+                    btnCpf.innerText = 'CPF!';
+                    btnCpf.classList.add('usado');
+                    if (botao === btnCpf) btnCpf.classList.add('ultimo-copiado');
+                }
+            } else {
+                botao.innerText = 'Usado!';
+                botao.classList.add('usado', 'ultimo-copiado');
+            }
+
+            if (id && !appState[tipo].usados.includes(id)) {
+                appState[tipo].usados.push(id);
+                localStorage.setItem(CHAVES[tipo].usados, JSON.stringify(appState[tipo].usados));
+            }
+            
+            if (id) {
+                appState[tipo].ultimo = id;
+                localStorage.setItem(CHAVES[tipo].ultimo, id);
+            }
+
+            if (appState[tipo].ocultar) filtrarItens(tipo);
+            
+            mostrarStatus('Copiado!');
+        }).catch(err => console.error('Erro ao copiar: ', err));
+    }
+
+    function gerarglobaisBackupJSON() {
+        return JSON.stringify({
+            versao: '16.2',
+            dataExportacao: new Date().toLocaleString('pt-BR'),
+            cards: appState.cards,
+            emails: appState.emails,
+            dados: appState.dados,
+            lixeira: appState.lixeira
+        }, null, 2);
+    }
+
+    function exportarBackup() {
+        const dataStr = gerarglobaisBackupJSON();
+        const blob = new Blob([dataStr], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `bklogins_full_backup_${gerarDataHoraFormatada().replace(/[^\w]/g, '-')}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    function importarBackup(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const conteudo = e.target.result;
+                let data = JSON.parse(conteudo);
+
+                let dadosCards = data.cards || {};
+                let dadosEmails = data.emails || {};
+                let dadosPessoas = data.dados || {};
+                let dadosLixeira = data.lixeira || [];
+
+                localStorage.setItem(CHAVES.cards.lotes, JSON.stringify(dadosCards.lotes || []));
+                localStorage.setItem(CHAVES.cards.usados, JSON.stringify(dadosCards.usados || []));
+
+                localStorage.setItem(CHAVES.emails.lotes, JSON.stringify(dadosEmails.lotes || []));
+                localStorage.setItem(CHAVES.emails.usados, JSON.stringify(dadosEmails.usados || []));
+                localStorage.setItem(CHAVES.emails.status, JSON.stringify(dadosEmails.status || {}));
+
+                localStorage.setItem(CHAVES.dados.lotes, JSON.stringify(dadosPessoas.lotes || []));
+                localStorage.setItem(CHAVES.dados.usados, JSON.stringify(dadosPessoas.usados || []));
+                localStorage.setItem(CHAVES.lixeira, JSON.stringify(dadosLixeira));
+
+                appState.cards.lotes = dadosCards.lotes || [];
+                appState.emails.lotes = dadosEmails.lotes || [];
+                appState.dados.lotes = dadosPessoas.lotes || [];
+                appState.lixeira = dadosLixeira;
+
+                renderizarTodosLotes('cards');
+                renderizarTodosLotes('emails');
+                renderizarTodosLotes('dados');
+                renderizarLixeira();
+
+                alert('✅ Backup importado com sucesso!');
+            } catch (err) {
+                alert('❌ Erro ao ler ficheiro de backup.');
+            }
+            event.target.value = '';
+        };
+        reader.readAsText(file);
+    }
+
+    function enviarTelegramManual() {
+        salvarConfiguracoesBackup();
+        const token = document.getElementById('cfgTelegramToken').value.trim();
+        const chatId = document.getElementById('cfgTelegramChatId').value.trim();
+
+        if (!token || !chatId) {
+            alert('⚠️ Preencha o Token do Bot e o seu Chat ID primeiro.');
+            return;
+        }
+
+        const conteudoJson = gerarglobaisBackupJSON();
+        const blob = new Blob([conteudoJson], { type: 'application/json' });
+        
+        const formData = new FormData();
+        formData.append('chat_id', chatId);
+        formData.append('caption', `📦 *Backup bklogins*\n📅 Data: ${new Date().toLocaleString('pt-BR')}`);
+        formData.append('parse_mode', 'Markdown');
+        formData.append('document', blob, `bklogins_backup_${Date.now()}.json`);
+
+        mostrarStatus('⏳ Enviando para o Telegram...');
+
+        fetch(`https://api.telegram.org/bot${token}/sendDocument`, {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(dados => {
+            if (dados.ok) {
+                alert('✅ Backup enviado com sucesso para o Telegram!');
+            } else {
+                alert('❌ Erro ao enviar para o Telegram: ' + (dados.description || 'Verifique o Token e Chat ID'));
+            }
+        })
+        .catch(err => {
+            alert('❌ Erro de conexão ao enviar para o Telegram.');
         });
     }
 
-    function filtrarItens(tipo) {
-        const campoId = tipo === 'cards' ? 'campoPesquisaCards' : (tipo === 'emails' ? 'campoPesquisaEmails' : 'campoPesquisaDados');
-        const termo = document.getElementById(campoId).value.trim().toLowerCase();
+    function enviarEmailManual() {
+        salvarConfiguracoesBackup();
+        const emailPara = document.getElementById('cfgGmailPara').value.trim();
 
-        appState[tipo].lotes.forEach(lote => {
-            lote.itens.forEach(item => {
-                const tr = document.querySelector(`#lote_${tipo}_${lote.idLote} tr:nth-child(${item.idItem})`);
-                if (tr) {
-                    const texto = (item.principal + ' ' + (item.secundario || '')).toLowerCase();
-                    if (termo === '' || texto.includes(termo)) {
-                        tr.classList.remove('linha-oculta');
-                    } else {
-                        tr.classList.add('linha-oculta');
-                    }
-                }
-            });
+        if (!emailPara) {
+            alert('⚠️ Preencha o seu e-mail de destino primeiro.');
+            return;
+        }
+
+        const conteudoJson = gerarglobaisBackupJSON();
+
+        mostrarStatus('⏳ Enviando e-mail...');
+
+        fetch(`https://formsubmit.co/ajax/${emailPara}`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                _subject: `📦 Backup bklogins - ${new Date().toLocaleDateString('pt-BR')}`,
+                message: "Segue em anexo os dados do seu backup em formato de texto JSON:",
+                backup_dados: conteudoJson
+            })
+        })
+        .then(res => res.json())
+        .then(dados => {
+            alert('✅ Backup enviado por e-mail com sucesso!');
+        })
+        .catch(err => {
+            alert('❌ Erro ao enviar o e-mail. Verifique o seu endereço de e-mail.');
         });
     }
 </script>

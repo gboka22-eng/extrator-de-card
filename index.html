@@ -838,7 +838,7 @@
 
         <div class="painel-ferramentas">
             <div class="wrapper-pesquisa">
-                <input type="text" id="campoPesquisaCards" class="input-pesquisa" placeholder="🔍 Buscar cartão (16 dígitos)...">
+                <input type="text" id="campoPesquisaCards" class="input-pesquisa" placeholder="🔍 Buscar 1 ou múltiplos cartões...">
                 <button class="btn-limpar-pesquisa" id="btnLimparPesquisaCards">❌</button>
             </div>
             <div class="grupo-botoes-filtros">
@@ -882,7 +882,7 @@
 
         <div class="painel-ferramentas">
             <div class="wrapper-pesquisa">
-                <input type="text" id="campoPesquisaEmails" class="input-pesquisa" placeholder="🔍 Buscar por email...">
+                <input type="text" id="campoPesquisaEmails" class="input-pesquisa" placeholder="🔍 Buscar 1 ou múltiplos emails...">
                 <button class="btn-limpar-pesquisa" id="btnLimparPesquisaEmails">❌</button>
             </div>
             <div class="grupo-botoes-filtros">
@@ -924,7 +924,7 @@
 
         <div class="painel-ferramentas">
             <div class="wrapper-pesquisa">
-                <input type="text" id="campoPesquisaDados" class="input-pesquisa" placeholder="🔍 Buscar por CPF ou Nome...">
+                <input type="text" id="campoPesquisaDados" class="input-pesquisa" placeholder="🔍 Buscar 1 ou múltiplos CPFs/Nomes...">
                 <button class="btn-limpar-pesquisa" id="btnLimparPesquisaDados">❌</button>
             </div>
             <div class="grupo-botoes-filtros">
@@ -1305,7 +1305,7 @@
         document.getElementById('btnImportarEmails').onclick = () => adicionarLote('emails');
         document.getElementById('btnImportarDados').onclick = () => adicionarLote('dados');
 
-        // EVENTOS DE PESQUISA E BOTÃO DE LIMPAR
+        // EVENTOS DE PESQUISA MÚLTIPLA E BOTÃO DE LIMPAR
         ['Cards', 'Emails', 'Dados'].forEach(tipo => {
             const campo = document.getElementById(`campoPesquisa${tipo}`);
             const btnLimpar = document.getElementById(`btnLimparPesquisa${tipo}`);
@@ -2155,11 +2155,24 @@
         }
     }
 
+    /* FILTRO DE BUSCA MÚLTIPLA */
     function filtrarItens(tipo) {
         const campoMap = { 'cards': 'campoPesquisaCards', 'emails': 'campoPesquisaEmails', 'dados': 'campoPesquisaDados' };
         const campoId = campoMap[tipo];
-        const termo = document.getElementById(campoId).value.trim().toLowerCase();
+        const textoEntrada = document.getElementById(campoId).value.trim();
         const ultimoId = appState[tipo].ultimo;
+
+        const termosBrutos = textoEntrada ? textoEntrada.split(/[\r\n,]+/) : [];
+        const termos = termosBrutos.map(t => {
+            let termoLimpo = t.trim().toLowerCase();
+            if (!termoLimpo) return '';
+            
+            const delimitador = termoLimpo.includes(':') ? ':' : (termoLimpo.includes('|') ? '|' : '');
+            if (delimitador) {
+                termoLimpo = termoLimpo.split(delimitador)[0].trim();
+            }
+            return termoLimpo;
+        }).filter(t => t.length > 0);
 
         appState[tipo].lotes.forEach(lote => {
             const cardElemento = document.getElementById(`lote_${tipo}_${lote.idLote}`);
@@ -2176,7 +2189,12 @@
                 if (!trElemento) return;
 
                 const textoBusca = (item.principal + ' ' + (item.secundario || '') + ' ' + (item.cpfLimpo || '')).toLowerCase();
-                const atendePesquisa = termo === '' || textoBusca.includes(termo);
+                
+                let atendePesquisa = true;
+                if (termos.length > 0) {
+                    atendePesquisa = termos.some(termo => textoBusca.includes(termo));
+                }
+
                 let atendeFiltroUsado = !appState[tipo].ocultar || !jaFoiUsado || ehOUltimoCopiado;
 
                 if (atendePesquisa && atendeFiltroUsado) {
@@ -2187,9 +2205,11 @@
                 }
             });
 
-            if (termo !== '' && linhasVisiveisNoLote > 0) cardElemento.classList.add('aberto');
+            if (termos.length > 0 && linhasVisiveisNoLote > 0) {
+                cardElemento.classList.add('aberto');
+            }
 
-            if (linhasVisiveisNoLote === 0 && (termo !== '' || appState[tipo].ocultar)) {
+            if (linhasVisiveisNoLote === 0 && (termos.length > 0 || appState[tipo].ocultar)) {
                 cardElemento.style.display = 'none';
             } else {
                 cardElemento.style.display = 'block';

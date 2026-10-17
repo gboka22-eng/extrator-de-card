@@ -191,10 +191,19 @@
             gap: 10px;
             flex-wrap: wrap;
         }
-        .input-pesquisa {
+
+        /* CONTAINER DA PESQUISA COM BOTÃO DE APAGAR */
+        .wrapper-pesquisa {
+            position: relative;
             flex: 1;
             min-width: 100%;
+            display: flex;
+            align-items: center;
+        }
+        .input-pesquisa {
+            width: 100%;
             padding: 12px;
+            padding-right: 38px;
             border: 1px solid #333;
             border-radius: 6px;
             font-size: 13px;
@@ -204,6 +213,23 @@
             user-select: text;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
+        .btn-limpar-pesquisa {
+            position: absolute;
+            right: 10px;
+            background: transparent;
+            border: none;
+            color: #888;
+            font-size: 14px;
+            cursor: pointer;
+            display: none;
+            padding: 4px;
+            border-radius: 50%;
+            line-height: 1;
+        }
+        .btn-limpar-pesquisa:hover {
+            color: #fff;
+        }
+
         .grupo-botoes-filtros {
             display: flex;
             gap: 8px;
@@ -731,7 +757,6 @@
             color: #fff;
         }
 
-        /* Estilos da Lixeira */
         .item-lixeira-card {
             display: flex;
             justify-content: space-between;
@@ -812,7 +837,10 @@
         <button class="btn-processar" id="btnImportarCards">Importar Cartões</button>
 
         <div class="painel-ferramentas">
-            <input type="text" id="campoPesquisaCards" class="input-pesquisa" placeholder="🔍 Buscar cartão (16 dígitos)...">
+            <div class="wrapper-pesquisa">
+                <input type="text" id="campoPesquisaCards" class="input-pesquisa" placeholder="🔍 Buscar cartão (16 dígitos)...">
+                <button class="btn-limpar-pesquisa" id="btnLimparPesquisaCards">❌</button>
+            </div>
             <div class="grupo-botoes-filtros">
                 <button id="btnOcultarUsadosCards" class="btn-filtro-usados">Ocultar Usados</button>
                 <button class="btn-backup btn-exp-backup">⬇️ Backup</button>
@@ -853,7 +881,10 @@
         <button class="btn-processar" id="btnImportarEmails">Importar Emails</button>
 
         <div class="painel-ferramentas">
-            <input type="text" id="campoPesquisaEmails" class="input-pesquisa" placeholder="🔍 Buscar por email...">
+            <div class="wrapper-pesquisa">
+                <input type="text" id="campoPesquisaEmails" class="input-pesquisa" placeholder="🔍 Buscar por email...">
+                <button class="btn-limpar-pesquisa" id="btnLimparPesquisaEmails">❌</button>
+            </div>
             <div class="grupo-botoes-filtros">
                 <button id="btnOcultarUsadosEmails" class="btn-filtro-usados">Ocultar Usados</button>
                 <button class="btn-backup btn-exp-backup">⬇️ Backup</button>
@@ -892,7 +923,10 @@
         <button class="btn-processar" id="btnImportarDados">Importar Dados</button>
 
         <div class="painel-ferramentas">
-            <input type="text" id="campoPesquisaDados" class="input-pesquisa" placeholder="🔍 Buscar por CPF ou Nome...">
+            <div class="wrapper-pesquisa">
+                <input type="text" id="campoPesquisaDados" class="input-pesquisa" placeholder="🔍 Buscar por CPF ou Nome...">
+                <button class="btn-limpar-pesquisa" id="btnLimparPesquisaDados">❌</button>
+            </div>
             <div class="grupo-botoes-filtros">
                 <button id="btnOcultarUsadosDados" class="btn-filtro-usados">Ocultar Usados</button>
                 <button class="btn-backup btn-exp-backup">⬇️ Backup</button>
@@ -915,7 +949,6 @@
             <div class="badge-sub">LIXEIRA & BACKUP</div>
         </div>
 
-        <!-- NOVO PAINEL DA LIXEIRA -->
         <div class="box-lixeira">
             <h3 style="margin-bottom: 12px; color: #ff9500; font-size: 15px; display:flex; justify-content:space-between; align-items:center;">
                 <span>🗑️ Lixeira Inteligente</span>
@@ -1089,7 +1122,6 @@
         }
     }
 
-    /* LIXEIRA INTELIGENTE CONTEXTUAL */
     function moverParaLixeira(tipo, item, nomeLote) {
         const obj = {
             idLixeira: Date.now() + Math.random(),
@@ -1273,9 +1305,22 @@
         document.getElementById('btnImportarEmails').onclick = () => adicionarLote('emails');
         document.getElementById('btnImportarDados').onclick = () => adicionarLote('dados');
 
-        document.getElementById('campoPesquisaCards').oninput = () => filtrarItens('cards');
-        document.getElementById('campoPesquisaEmails').oninput = () => filtrarItens('emails');
-        document.getElementById('campoPesquisaDados').oninput = () => filtrarItens('dados');
+        // EVENTOS DE PESQUISA E BOTÃO DE LIMPAR
+        ['Cards', 'Emails', 'Dados'].forEach(tipo => {
+            const campo = document.getElementById(`campoPesquisa${tipo}`);
+            const btnLimpar = document.getElementById(`btnLimparPesquisa${tipo}`);
+            
+            campo.oninput = () => {
+                btnLimpar.style.display = campo.value.trim().length > 0 ? 'block' : 'none';
+                filtrarItens(tipo.toLowerCase());
+            };
+
+            btnLimpar.onclick = () => {
+                campo.value = '';
+                btnLimpar.style.display = 'none';
+                filtrarItens(tipo.toLowerCase());
+            };
+        });
 
         document.getElementById('btnOcultarUsadosCards').onclick = () => alternarFiltroCards();
         document.getElementById('btnOcultarUsadosEmails').onclick = () => alternarFiltroEmails('usados');
@@ -1636,7 +1681,6 @@
         return itens;
     }
 
-    /* ADICIONAR LOTE COM BLOQUEIO DE DUPLICADOS */
     function adicionarLote(tipo) {
         const campoId = tipo === 'cards' ? 'entradaDadosCards' : (tipo === 'emails' ? 'entradaDadosEmails' : 'entradaDadosPessoas');
         const campo = document.getElementById(campoId);
@@ -1661,7 +1705,6 @@
             } catch (err) {}
         }
 
-        // Mapeia os existentes para prevenir duplicados
         const existentes = new Set();
         appState[tipo].lotes.forEach(lote => {
             lote.itens.forEach(item => {
@@ -2113,7 +2156,8 @@
     }
 
     function filtrarItens(tipo) {
-        const campoId = tipo === 'cards' ? 'campoPesquisaCards' : (tipo === 'emails' ? 'campoPesquisaEmails' : 'campoPesquisaDados');
+        const campoMap = { 'cards': 'campoPesquisaCards', 'emails': 'campoPesquisaEmails', 'dados': 'campoPesquisaDados' };
+        const campoId = campoMap[tipo];
         const termo = document.getElementById(campoId).value.trim().toLowerCase();
         const ultimoId = appState[tipo].ultimo;
 

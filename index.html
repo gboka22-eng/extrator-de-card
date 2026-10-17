@@ -1305,7 +1305,7 @@
         document.getElementById('btnImportarEmails').onclick = () => adicionarLote('emails');
         document.getElementById('btnImportarDados').onclick = () => adicionarLote('dados');
 
-        // EVENTOS DE PESQUISA MÚLTIPLA E BOTÃO DE LIMPAR CORRIGIDOS
+        // EVENTOS DE PESQUISA MÚLTIPLA E BOTÃO DE LIMPAR
         ['Cards', 'Emails', 'Dados'].forEach(tipo => {
             const campo = document.getElementById(`campoPesquisa${tipo}`);
             const btnLimpar = document.getElementById(`btnLimparPesquisa${tipo}`);
@@ -2156,26 +2156,27 @@
         }
     }
 
-    /* FILTRO DE BUSCA MÚLTIPLA AJUSTADO */
+    /* FILTRO DE BUSCA MÚLTIPLA TOTALMENTE CORRIGIDO */
     function filtrarItens(tipo) {
         const campoMap = { 'cards': 'campoPesquisaCards', 'emails': 'campoPesquisaEmails', 'dados': 'campoPesquisaDados' };
         const campoId = campoMap[tipo];
         const textoEntrada = document.getElementById(campoId).value;
         const ultimoId = appState[tipo].ultimo;
 
-        // Extrai todas as palavras/linhas separando por quebras de linha, vírgulas, ponto e vírgula ou espaços
-        const linhasEntrada = textoEntrada ? textoEntrada.split(/[\r\n,;]+/) : [];
+        // Divide a entrada por linhas ou vírgulas
+        const linhasEntrada = textoEntrada ? textoEntrada.split(/\r?\n/) : [];
         const termos = [];
 
         linhasEntrada.forEach(linha => {
             let l = linha.trim().toLowerCase();
             if (!l) return;
 
-            // Se colar uma linha no formato email:senha, extrai apenas a chave principal (email/cartão/cpf)
-            const partes = l.split(/[:|\s]+/);
-            if (partes[0] && partes[0].trim()) {
-                termos.push(partes[0].trim());
-            }
+            // Pega o e-mail/chave antes do caractere delimitador (ex: : ou |)
+            let emailChave = l;
+            if (l.includes(':')) emailChave = l.split(':')[0].trim();
+            else if (l.includes('|')) emailChave = l.split('|')[0].trim();
+
+            if (emailChave) termos.push(emailChave);
         });
 
         appState[tipo].lotes.forEach(lote => {
@@ -2192,11 +2193,17 @@
 
                 if (!trElemento) return;
 
-                const textoBusca = (item.principal + ' ' + (item.secundario || '') + ' ' + (item.cpfLimpo || '')).toLowerCase();
-                
+                const textoPrincipal = (item.principal || '').toLowerCase();
+                const textoSecundario = (item.secundario || '').toLowerCase();
+                const textoCpf = (item.cpfLimpo || '').toLowerCase();
+
                 let atendePesquisa = true;
                 if (termos.length > 0) {
-                    atendePesquisa = termos.some(termo => textoBusca.includes(termo));
+                    atendePesquisa = termos.some(termo => 
+                        textoPrincipal.includes(termo) || 
+                        textoSecundario.includes(termo) || 
+                        textoCpf.includes(termo)
+                    );
                 }
 
                 let atendeFiltroUsado = !appState[tipo].ocultar || !jaFoiUsado || ehOUltimoCopiado;
@@ -2209,14 +2216,19 @@
                 }
             });
 
-            if (termos.length > 0 && linhasVisiveisNoLote > 0) {
-                cardElemento.classList.add('aberto');
-            }
-
-            if (linhasVisiveisNoLote === 0 && (termos.length > 0 || appState[tipo].ocultar)) {
-                cardElemento.style.display = 'none';
+            if (termos.length > 0) {
+                if (linhasVisiveisNoLote > 0) {
+                    cardElemento.style.display = 'block';
+                    cardElemento.classList.add('aberto');
+                } else {
+                    cardElemento.style.display = 'none';
+                }
             } else {
-                cardElemento.style.display = 'block';
+                if (appState[tipo].ocultar && linhasVisiveisNoLote === 0) {
+                    cardElemento.style.display = 'none';
+                } else {
+                    cardElemento.style.display = 'block';
+                }
             }
         });
     }

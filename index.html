@@ -1305,21 +1305,22 @@
         document.getElementById('btnImportarEmails').onclick = () => adicionarLote('emails');
         document.getElementById('btnImportarDados').onclick = () => adicionarLote('dados');
 
-        // EVENTOS DE PESQUISA MÚLTIPLA E BOTÃO DE LIMPAR
+        // EVENTOS DE PESQUISA MÚLTIPLA E BOTÃO DE LIMPAR CORRIGIDOS
         ['Cards', 'Emails', 'Dados'].forEach(tipo => {
             const campo = document.getElementById(`campoPesquisa${tipo}`);
             const btnLimpar = document.getElementById(`btnLimparPesquisa${tipo}`);
             
-            campo.oninput = () => {
+            campo.addEventListener('input', () => {
                 btnLimpar.style.display = campo.value.trim().length > 0 ? 'block' : 'none';
                 filtrarItens(tipo.toLowerCase());
-            };
+            });
 
-            btnLimpar.onclick = () => {
+            btnLimpar.addEventListener('click', (e) => {
+                e.preventDefault();
                 campo.value = '';
                 btnLimpar.style.display = 'none';
                 filtrarItens(tipo.toLowerCase());
-            };
+            });
         });
 
         document.getElementById('btnOcultarUsadosCards').onclick = () => alternarFiltroCards();
@@ -2155,24 +2156,27 @@
         }
     }
 
-    /* FILTRO DE BUSCA MÚLTIPLA */
+    /* FILTRO DE BUSCA MÚLTIPLA AJUSTADO */
     function filtrarItens(tipo) {
         const campoMap = { 'cards': 'campoPesquisaCards', 'emails': 'campoPesquisaEmails', 'dados': 'campoPesquisaDados' };
         const campoId = campoMap[tipo];
-        const textoEntrada = document.getElementById(campoId).value.trim();
+        const textoEntrada = document.getElementById(campoId).value;
         const ultimoId = appState[tipo].ultimo;
 
-        const termosBrutos = textoEntrada ? textoEntrada.split(/[\r\n,]+/) : [];
-        const termos = termosBrutos.map(t => {
-            let termoLimpo = t.trim().toLowerCase();
-            if (!termoLimpo) return '';
-            
-            const delimitador = termoLimpo.includes(':') ? ':' : (termoLimpo.includes('|') ? '|' : '');
-            if (delimitador) {
-                termoLimpo = termoLimpo.split(delimitador)[0].trim();
+        // Extrai todas as palavras/linhas separando por quebras de linha, vírgulas, ponto e vírgula ou espaços
+        const linhasEntrada = textoEntrada ? textoEntrada.split(/[\r\n,;]+/) : [];
+        const termos = [];
+
+        linhasEntrada.forEach(linha => {
+            let l = linha.trim().toLowerCase();
+            if (!l) return;
+
+            // Se colar uma linha no formato email:senha, extrai apenas a chave principal (email/cartão/cpf)
+            const partes = l.split(/[:|\s]+/);
+            if (partes[0] && partes[0].trim()) {
+                termos.push(partes[0].trim());
             }
-            return termoLimpo;
-        }).filter(t => t.length > 0);
+        });
 
         appState[tipo].lotes.forEach(lote => {
             const cardElemento = document.getElementById(`lote_${tipo}_${lote.idLote}`);

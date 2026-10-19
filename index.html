@@ -185,6 +185,26 @@
             transform: scale(0.99);
         }
 
+        .btn-txt-file {
+            width: 100%;
+            margin-top: 8px;
+            padding: 10px;
+            background-color: #2b2b2b;
+            color: #4cd964;
+            border: 1px solid #34c759;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.2s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .btn-txt-file:hover {
+            background-color: #34c759;
+            color: #fff;
+        }
+
         .painel-ferramentas {
             margin-top: 20px;
             display: flex;
@@ -192,7 +212,6 @@
             flex-wrap: wrap;
         }
 
-        /* CONTAINER DA PESQUISA COM TEXTAREA E BOTÃO DE APAGAR */
         .wrapper-pesquisa {
             position: relative;
             flex: 1;
@@ -265,7 +284,6 @@
             background-color: #444;
         }
 
-        /* CARD PASTA ASSINADAS, PAINEL BACKUP & LIXEIRA */
         .card-pasta-assinadas, .box-auto-backup, .box-lixeira {
             margin-top: 20px;
             background: #1a1a1a;
@@ -818,6 +836,7 @@
 </div>
 
 <input type="file" id="fileImportGlobal" style="display: none;" accept=".json,.txt">
+<input type="file" id="fileImportTxtCards" style="display: none;" accept=".txt,.log">
 
 <!-- VIEW 1: CARTÕES -->
 <div id="view-cards" class="view active">
@@ -825,7 +844,7 @@
         <div class="netflix-header">
             <div class="logo-grupo">
                 <div class="logo-bklogins">bklogins</div>
-                <div class="versao-tag">v16.3</div>
+                <div class="versao-tag">v16.4</div>
             </div>
             <div class="badge-sub">CARDS PRO</div>
         </div>
@@ -838,9 +857,10 @@
             <label for="modoMarcarLiveCards" class="label-modo">🟢 Marcar Cartões LIVE</label>
         </div>
 
-        <p class="instrucoes" id="instrucoesCards">Cole a lista no formato <code>NÚMERO|MÊS|ANO|CVV</code>:</p>
-        <textarea id="entradaDadosCards" placeholder="Cole seus cartões aqui..."></textarea>
+        <p class="instrucoes" id="instrucoesCards">Cole a mensagem/lista ou o arquivo .txt contendo os cartões:</p>
+        <textarea id="entradaDadosCards" placeholder="Cole suas mensagens do Telegram/Discord ou listas de cartões aqui..."></textarea>
         <button class="btn-processar" id="btnImportarCards">Importar Cartões</button>
+        <button class="btn-txt-file" id="btnCarregarArquivoTxtCards">📄 Importar de Arquivo (.TXT)</button>
 
         <div class="painel-ferramentas">
             <div class="wrapper-pesquisa">
@@ -864,7 +884,7 @@
         <div class="netflix-header">
             <div class="logo-grupo">
                 <div class="logo-bklogins">bklogins</div>
-                <div class="versao-tag">v16.3</div>
+                <div class="versao-tag">v16.4</div>
             </div>
             <div class="badge-sub">EMAILS PRO</div>
         </div>
@@ -919,7 +939,7 @@
         <div class="netflix-header">
             <div class="logo-grupo">
                 <div class="logo-bklogins">bklogins</div>
-                <div class="versao-tag">v16.3</div>
+                <div class="versao-tag">v16.4</div>
             </div>
             <div class="badge-sub">DADOS PRO</div>
         </div>
@@ -950,7 +970,7 @@
         <div class="netflix-header">
             <div class="logo-grupo">
                 <div class="logo-bklogins">bklogins</div>
-                <div class="versao-tag">v16.3</div>
+                <div class="versao-tag">v16.4</div>
             </div>
             <div class="badge-sub">LIXEIRA & BACKUP</div>
         </div>
@@ -1289,6 +1309,28 @@
             }
         };
 
+        document.getElementById('btnCarregarArquivoTxtCards').onclick = () => {
+            document.getElementById('fileImportTxtCards').click();
+        };
+
+        document.getElementById('fileImportTxtCards').onchange = (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                document.getElementById('entradaDadosCards').value = evt.target.result;
+                const modoLive = document.getElementById('modoMarcarLiveCards').checked;
+                if (modoLive) {
+                    marcarCartoesLive();
+                } else {
+                    adicionarLote('cards');
+                }
+                e.target.value = '';
+            };
+            reader.readAsText(file);
+        };
+
         document.querySelectorAll('input[name="modoCards"]').forEach(radio => {
             radio.addEventListener('change', (e) => {
                 const isLive = e.target.value === 'live';
@@ -1302,8 +1344,8 @@
                     areaText.placeholder = 'Cole seus cartões LIVE aqui...';
                 } else {
                     btn.innerText = 'Importar Cartões';
-                    inst.innerHTML = 'Cole a lista no formato <code>NÚMERO|MÊS|ANO|CVV</code>:';
-                    areaText.placeholder = 'Cole seus cartões aqui...';
+                    inst.innerHTML = 'Cole a mensagem/lista ou o arquivo .txt contendo os cartões:';
+                    areaText.placeholder = 'Cole suas mensagens do Telegram/Discord ou listas de cartões aqui...';
                 }
             });
         });
@@ -1311,7 +1353,6 @@
         document.getElementById('btnImportarEmails').onclick = () => adicionarLote('emails');
         document.getElementById('btnImportarDados').onclick = () => adicionarLote('dados');
 
-        // EVENTOS DE PESQUISA MÚLTIPLA E BOTÃO DE LIMPAR
         ['Cards', 'Emails', 'Dados'].forEach(tipo => {
             const campo = document.getElementById(`campoPesquisa${tipo}`);
             const btnLimpar = document.getElementById(`btnLimparPesquisa${tipo}`);
@@ -1688,13 +1729,38 @@
         return itens;
     }
 
+    /* FILTRO DE EXTRAÇÃO AJUSTADO PARA EVITAR MSG_ID */
+    function extrairCartoesDeTexto(texto) {
+        const resultados = [];
+        // Busca especificamente sequências que tenham um cartão de 15/16 dígitos seguido de data e cvv
+        const regexCartaoEspecial = /(\b\d{15,16}\b)\s*[|:\s/]\s*(\d{1,2})\s*[|:\s/]\s*(\d{2,4})\s*[|:\s/]\s*(\d{3,4})/g;
+
+        let match;
+        while ((match = regexCartaoEspecial.exec(texto)) !== null) {
+            const numero = match[1];
+            let mes = match[2].padStart(2, '0');
+            let ano = match[3];
+            if (ano.length === 2) ano = '20' + ano;
+            const cvv = match[4];
+
+            resultados.push({
+                numero: numero,
+                mesAno: `${mes}/${ano}`,
+                cvv: cvv,
+                original: `${numero}|${mes}|${ano}|${cvv}`
+            });
+        }
+
+        return resultados;
+    }
+
     function adicionarLote(tipo) {
         const campoId = tipo === 'cards' ? 'entradaDadosCards' : (tipo === 'emails' ? 'entradaDadosEmails' : 'entradaDadosPessoas');
         const campo = document.getElementById(campoId);
         let texto = campo.value.trim();
 
         if (!texto) {
-            alert('Cole uma lista antes de importar.');
+            alert('Cole uma lista ou selecione um arquivo antes de importar.');
             return;
         }
 
@@ -1730,7 +1796,27 @@
             if (selectEl) statusImportacao = selectEl.value;
         }
 
-        if (tipo === 'dados') {
+        if (tipo === 'cards') {
+            const cartoesEncontrados = extrairCartoesDeTexto(texto);
+            let contador = 1;
+
+            cartoesEncontrados.forEach(c => {
+                if (existentes.has(c.numero)) {
+                    ignoradosRepetidos++;
+                    return;
+                }
+                existentes.add(c.numero);
+
+                itens.push({
+                    idItem: contador++,
+                    principal: c.numero,
+                    secundario: c.mesAno,
+                    terciario: c.cvv,
+                    textoCompleto: c.original,
+                    statusCard: 'pendente'
+                });
+            });
+        } else if (tipo === 'dados') {
             const todosExtraidos = extrairBlocosPessoas(texto);
             todosExtraidos.forEach(item => {
                 if (item.cpfLimpo && existentes.has(item.cpfLimpo)) {
@@ -1748,47 +1834,26 @@
                 let l = linha.trim().replace(/^["\[{\s]+\vert{}[\]}"\s]+$/g, '');
                 if (!l) return;
 
-                if (tipo === 'cards') {
-                    const partes = l.split(/[\s,|]+/);
-                    const numero = partes[0] ? partes[0].trim().replace(/\D/g, '') : '';
-                    if (!numero) return;
+                let delimitador = l.includes(':') ? ':' : (l.includes('|') ? '|' : ' ');
+                const partes = l.split(delimitador);
+                const email = partes[0] ? partes[0].trim() : '';
+                if (!email) return;
 
-                    if (existentes.has(numero)) {
-                        ignoradosRepetidos++;
-                        return;
-                    }
-                    existentes.add(numero);
-                    
-                    itens.push({
-                        idItem: contador++,
-                        principal: numero,
-                        secundario: (partes[1] && partes[2]) ? `${partes[1]}/${partes[2]}` : (partes[1] || '03/2030'),
-                        terciario: partes[3] ? partes[3].trim() : '789',
-                        textoCompleto: l,
-                        statusCard: 'pendente'
-                    });
-                } else if (tipo === 'emails') {
-                    let delimitador = l.includes(':') ? ':' : (l.includes('|') ? '|' : ' ');
-                    const partes = l.split(delimitador);
-                    const email = partes[0] ? partes[0].trim() : '';
-                    if (!email) return;
-
-                    const emailChave = email.toLowerCase();
-                    if (existentes.has(emailChave)) {
-                        ignoradosRepetidos++;
-                        return;
-                    }
-                    existentes.add(emailChave);
-
-                    itens.push({
-                        idItem: contador++,
-                        principal: email,
-                        secundario: partes[1] ? partes[1].trim() : '-',
-                        terciario: '',
-                        textoCompleto: l,
-                        status: statusImportacao
-                    });
+                const emailChave = email.toLowerCase();
+                if (existentes.has(emailChave)) {
+                    ignoradosRepetidos++;
+                    return;
                 }
+                existentes.add(emailChave);
+
+                itens.push({
+                    idItem: contador++,
+                    principal: email,
+                    secundario: partes[1] ? partes[1].trim() : '-',
+                    terciario: '',
+                    textoCompleto: l,
+                    status: statusImportacao
+                });
             });
         }
 
@@ -1796,7 +1861,7 @@
             if (ignoradosRepetidos > 0) {
                 alert(`⚠️ Todos os ${ignoradosRepetidos} itens da lista já existem nas suas listas!`);
             } else {
-                alert('Nenhum dado válido foi identificado.');
+                alert('Nenhum cartão ou dado válido foi identificado.');
             }
             return;
         }
@@ -1838,22 +1903,12 @@
         }
 
         const cartoesLiveEncontrados = new Set();
-        const numerosExtraidos = texto.match(/\b\d{16}\b/g) || [];
+        const numerosExtraidos = texto.match(/\b\d{15,16}\b/g) || [];
 
-        if (numerosExtraidos.length === 0) {
-            const linhas = texto.split(/\r?\n/);
-            linhas.forEach(l => {
-                const apenasDigitos = l.replace(/\D/g, '');
-                if (apenasDigitos.length >= 16) {
-                    cartoesLiveEncontrados.add(apenasDigitos.substring(0, 16));
-                }
-            });
-        } else {
-            numerosExtraidos.forEach(num => cartoesLiveEncontrados.add(num));
-        }
+        numerosExtraidos.forEach(num => cartoesLiveEncontrados.add(num));
 
         if (cartoesLiveEncontrados.size === 0) {
-            alert('⚠️ Nenhum número de cartão com 16 dígitos foi encontrado no texto.');
+            alert('⚠️ Nenhum número de cartão com 15 ou 16 dígitos foi encontrado no texto.');
             return;
         }
 
@@ -2162,14 +2217,12 @@
         }
     }
 
-    /* BUSCA MÚLTIPLA V16.3 */
     function filtrarItens(tipo) {
         const campoMap = { 'cards': 'campoPesquisaCards', 'emails': 'campoPesquisaEmails', 'dados': 'campoPesquisaDados' };
         const campoId = campoMap[tipo];
         const textoEntrada = document.getElementById(campoId).value;
         const ultimoId = appState[tipo].ultimo;
 
-        // Separa por quebras de linha, vírgulas, ponto e vírgula e espaços
         const blocosEntrada = textoEntrada ? textoEntrada.split(/[\r\n,;\s]+/) : [];
         const termos = [];
 
@@ -2177,7 +2230,6 @@
             let b = bloco.trim().toLowerCase();
             if (!b) return;
 
-            // Extrai só o e-mail ou número do cartão limpando a senha
             let termoLimpo = b;
             if (b.includes(':')) termoLimpo = b.split(':')[0].trim();
             else if (b.includes('|')) termoLimpo = b.split('|')[0].trim();
@@ -2520,7 +2572,7 @@
 
     function gerarglobaisBackupJSON() {
         return JSON.stringify({
-            versao: '16.3',
+            versao: '16.4',
             dataExportacao: new Date().toLocaleString('pt-BR'),
             cards: appState.cards,
             emails: appState.emails,

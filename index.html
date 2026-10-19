@@ -191,19 +191,51 @@
             gap: 10px;
             flex-wrap: wrap;
         }
-        .input-pesquisa {
+
+        /* CONTAINER DA PESQUISA COM TEXTAREA E BOTÃO DE APAGAR */
+        .wrapper-pesquisa {
+            position: relative;
             flex: 1;
             min-width: 100%;
-            padding: 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .input-pesquisa-multipla {
+            width: 100%;
+            height: 55px;
+            min-height: 45px;
+            padding: 10px 38px 10px 12px;
             border: 1px solid #333;
             border-radius: 6px;
-            font-size: 13px;
+            font-size: 12px;
             outline: none;
             background: #181818;
             color: #fff;
             user-select: text;
             font-family: 'Plus Jakarta Sans', sans-serif;
+            resize: vertical;
         }
+        .btn-limpar-pesquisa {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: #aaa;
+            font-size: 12px;
+            cursor: pointer;
+            display: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            line-height: 22px;
+            text-align: center;
+        }
+        .btn-limpar-pesquisa:hover {
+            color: #fff;
+            background: #E50914;
+        }
+
         .grupo-botoes-filtros {
             display: flex;
             gap: 8px;
@@ -731,7 +763,6 @@
             color: #fff;
         }
 
-        /* Estilos da Lixeira */
         .item-lixeira-card {
             display: flex;
             justify-content: space-between;
@@ -794,7 +825,7 @@
         <div class="netflix-header">
             <div class="logo-grupo">
                 <div class="logo-bklogins">bklogins</div>
-                <div class="versao-tag">v16.2</div>
+                <div class="versao-tag">v16.3</div>
             </div>
             <div class="badge-sub">CARDS PRO</div>
         </div>
@@ -812,7 +843,10 @@
         <button class="btn-processar" id="btnImportarCards">Importar Cartões</button>
 
         <div class="painel-ferramentas">
-            <input type="text" id="campoPesquisaCards" class="input-pesquisa" placeholder="🔍 Buscar cartão (16 dígitos)...">
+            <div class="wrapper-pesquisa">
+                <textarea id="campoPesquisaCards" class="input-pesquisa-multipla" placeholder="🔍 Cole 1 ou múltiplos cartões para buscar..."></textarea>
+                <button class="btn-limpar-pesquisa" id="btnLimparPesquisaCards">✕</button>
+            </div>
             <div class="grupo-botoes-filtros">
                 <button id="btnOcultarUsadosCards" class="btn-filtro-usados">Ocultar Usados</button>
                 <button class="btn-backup btn-exp-backup">⬇️ Backup</button>
@@ -830,7 +864,7 @@
         <div class="netflix-header">
             <div class="logo-grupo">
                 <div class="logo-bklogins">bklogins</div>
-                <div class="versao-tag">v16.2</div>
+                <div class="versao-tag">v16.3</div>
             </div>
             <div class="badge-sub">EMAILS PRO</div>
         </div>
@@ -853,7 +887,10 @@
         <button class="btn-processar" id="btnImportarEmails">Importar Emails</button>
 
         <div class="painel-ferramentas">
-            <input type="text" id="campoPesquisaEmails" class="input-pesquisa" placeholder="🔍 Buscar por email...">
+            <div class="wrapper-pesquisa">
+                <textarea id="campoPesquisaEmails" class="input-pesquisa-multipla" placeholder="🔍 Cole 1 ou múltiplos emails para buscar..."></textarea>
+                <button class="btn-limpar-pesquisa" id="btnLimparPesquisaEmails">✕</button>
+            </div>
             <div class="grupo-botoes-filtros">
                 <button id="btnOcultarUsadosEmails" class="btn-filtro-usados">Ocultar Usados</button>
                 <button class="btn-backup btn-exp-backup">⬇️ Backup</button>
@@ -882,7 +919,7 @@
         <div class="netflix-header">
             <div class="logo-grupo">
                 <div class="logo-bklogins">bklogins</div>
-                <div class="versao-tag">v16.2</div>
+                <div class="versao-tag">v16.3</div>
             </div>
             <div class="badge-sub">DADOS PRO</div>
         </div>
@@ -892,7 +929,10 @@
         <button class="btn-processar" id="btnImportarDados">Importar Dados</button>
 
         <div class="painel-ferramentas">
-            <input type="text" id="campoPesquisaDados" class="input-pesquisa" placeholder="🔍 Buscar por CPF ou Nome...">
+            <div class="wrapper-pesquisa">
+                <textarea id="campoPesquisaDados" class="input-pesquisa-multipla" placeholder="🔍 Cole 1 ou múltiplos CPFs/Nomes para buscar..."></textarea>
+                <button class="btn-limpar-pesquisa" id="btnLimparPesquisaDados">✕</button>
+            </div>
             <div class="grupo-botoes-filtros">
                 <button id="btnOcultarUsadosDados" class="btn-filtro-usados">Ocultar Usados</button>
                 <button class="btn-backup btn-exp-backup">⬇️ Backup</button>
@@ -910,12 +950,11 @@
         <div class="netflix-header">
             <div class="logo-grupo">
                 <div class="logo-bklogins">bklogins</div>
-                <div class="versao-tag">v16.2</div>
+                <div class="versao-tag">v16.3</div>
             </div>
             <div class="badge-sub">LIXEIRA & BACKUP</div>
         </div>
 
-        <!-- NOVO PAINEL DA LIXEIRA -->
         <div class="box-lixeira">
             <h3 style="margin-bottom: 12px; color: #ff9500; font-size: 15px; display:flex; justify-content:space-between; align-items:center;">
                 <span>🗑️ Lixeira Inteligente</span>
@@ -1089,7 +1128,6 @@
         }
     }
 
-    /* LIXEIRA INTELIGENTE CONTEXTUAL */
     function moverParaLixeira(tipo, item, nomeLote) {
         const obj = {
             idLixeira: Date.now() + Math.random(),
@@ -1273,9 +1311,23 @@
         document.getElementById('btnImportarEmails').onclick = () => adicionarLote('emails');
         document.getElementById('btnImportarDados').onclick = () => adicionarLote('dados');
 
-        document.getElementById('campoPesquisaCards').oninput = () => filtrarItens('cards');
-        document.getElementById('campoPesquisaEmails').oninput = () => filtrarItens('emails');
-        document.getElementById('campoPesquisaDados').oninput = () => filtrarItens('dados');
+        // EVENTOS DE PESQUISA MÚLTIPLA E BOTÃO DE LIMPAR
+        ['Cards', 'Emails', 'Dados'].forEach(tipo => {
+            const campo = document.getElementById(`campoPesquisa${tipo}`);
+            const btnLimpar = document.getElementById(`btnLimparPesquisa${tipo}`);
+            
+            campo.addEventListener('input', () => {
+                btnLimpar.style.display = campo.value.trim().length > 0 ? 'block' : 'none';
+                filtrarItens(tipo.toLowerCase());
+            });
+
+            btnLimpar.addEventListener('click', (e) => {
+                e.preventDefault();
+                campo.value = '';
+                btnLimpar.style.display = 'none';
+                filtrarItens(tipo.toLowerCase());
+            });
+        });
 
         document.getElementById('btnOcultarUsadosCards').onclick = () => alternarFiltroCards();
         document.getElementById('btnOcultarUsadosEmails').onclick = () => alternarFiltroEmails('usados');
@@ -1636,7 +1688,6 @@
         return itens;
     }
 
-    /* ADICIONAR LOTE COM BLOQUEIO DE DUPLICADOS */
     function adicionarLote(tipo) {
         const campoId = tipo === 'cards' ? 'entradaDadosCards' : (tipo === 'emails' ? 'entradaDadosEmails' : 'entradaDadosPessoas');
         const campo = document.getElementById(campoId);
@@ -1661,7 +1712,6 @@
             } catch (err) {}
         }
 
-        // Mapeia os existentes para prevenir duplicados
         const existentes = new Set();
         appState[tipo].lotes.forEach(lote => {
             lote.itens.forEach(item => {
@@ -2112,10 +2162,30 @@
         }
     }
 
+    /* BUSCA MÚLTIPLA V16.3 */
     function filtrarItens(tipo) {
-        const campoId = tipo === 'cards' ? 'campoPesquisaCards' : (tipo === 'emails' ? 'campoPesquisaEmails' : 'campoPesquisaDados');
-        const termo = document.getElementById(campoId).value.trim().toLowerCase();
+        const campoMap = { 'cards': 'campoPesquisaCards', 'emails': 'campoPesquisaEmails', 'dados': 'campoPesquisaDados' };
+        const campoId = campoMap[tipo];
+        const textoEntrada = document.getElementById(campoId).value;
         const ultimoId = appState[tipo].ultimo;
+
+        // Separa por quebras de linha, vírgulas, ponto e vírgula e espaços
+        const blocosEntrada = textoEntrada ? textoEntrada.split(/[\r\n,;\s]+/) : [];
+        const termos = [];
+
+        blocosEntrada.forEach(bloco => {
+            let b = bloco.trim().toLowerCase();
+            if (!b) return;
+
+            // Extrai só o e-mail ou número do cartão limpando a senha
+            let termoLimpo = b;
+            if (b.includes(':')) termoLimpo = b.split(':')[0].trim();
+            else if (b.includes('|')) termoLimpo = b.split('|')[0].trim();
+
+            if (termoLimpo.length > 2) {
+                termos.push(termoLimpo);
+            }
+        });
 
         appState[tipo].lotes.forEach(lote => {
             const cardElemento = document.getElementById(`lote_${tipo}_${lote.idLote}`);
@@ -2131,8 +2201,19 @@
 
                 if (!trElemento) return;
 
-                const textoBusca = (item.principal + ' ' + (item.secundario || '') + ' ' + (item.cpfLimpo || '')).toLowerCase();
-                const atendePesquisa = termo === '' || textoBusca.includes(termo);
+                const textoPrincipal = (item.principal || '').toLowerCase();
+                const textoSecundario = (item.secundario || '').toLowerCase();
+                const textoCpf = (item.cpfLimpo || '').toLowerCase();
+
+                let atendePesquisa = true;
+                if (termos.length > 0) {
+                    atendePesquisa = termos.some(termo => 
+                        textoPrincipal.includes(termo) || 
+                        textoSecundario.includes(termo) || 
+                        textoCpf.includes(termo)
+                    );
+                }
+
                 let atendeFiltroUsado = !appState[tipo].ocultar || !jaFoiUsado || ehOUltimoCopiado;
 
                 if (atendePesquisa && atendeFiltroUsado) {
@@ -2143,12 +2224,19 @@
                 }
             });
 
-            if (termo !== '' && linhasVisiveisNoLote > 0) cardElemento.classList.add('aberto');
-
-            if (linhasVisiveisNoLote === 0 && (termo !== '' || appState[tipo].ocultar)) {
-                cardElemento.style.display = 'none';
+            if (termos.length > 0) {
+                if (linhasVisiveisNoLote > 0) {
+                    cardElemento.style.display = 'block';
+                    cardElemento.classList.add('aberto');
+                } else {
+                    cardElemento.style.display = 'none';
+                }
             } else {
-                cardElemento.style.display = 'block';
+                if (appState[tipo].ocultar && linhasVisiveisNoLote === 0) {
+                    cardElemento.style.display = 'none';
+                } else {
+                    cardElemento.style.display = 'block';
+                }
             }
         });
     }
@@ -2432,7 +2520,7 @@
 
     function gerarglobaisBackupJSON() {
         return JSON.stringify({
-            versao: '16.2',
+            versao: '16.3',
             dataExportacao: new Date().toLocaleString('pt-BR'),
             cards: appState.cards,
             emails: appState.emails,

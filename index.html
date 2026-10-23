@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>bklogins - Extrator PRO</title>
-    <!-- Fonte Premium Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -142,9 +141,6 @@
             text-transform: uppercase;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
-        .select-import-status:focus {
-            border-color: #E50914;
-        }
 
         textarea {
             width: 100%;
@@ -200,10 +196,6 @@
             transition: all 0.2s;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
-        .btn-txt-file:hover {
-            background-color: #34c759;
-            color: #fff;
-        }
 
         .painel-ferramentas {
             margin-top: 20px;
@@ -250,10 +242,6 @@
             line-height: 22px;
             text-align: center;
         }
-        .btn-limpar-pesquisa:hover {
-            color: #fff;
-            background: #E50914;
-        }
 
         .grupo-botoes-filtros {
             display: flex;
@@ -280,11 +268,8 @@
             background-color: #E50914;
             border-color: #E50914;
         }
-        .btn-backup:hover {
-            background-color: #444;
-        }
 
-        .card-pasta-assinadas, .box-auto-backup, .box-lixeira {
+        .card-pasta-assinadas, .box-auto-backup, .box-lixeira, .box-arquivados {
             margin-top: 20px;
             background: #1a1a1a;
             border: 2px solid #34c759;
@@ -301,6 +286,12 @@
             border-color: #ff9500;
             box-shadow: 0 4px 18px rgba(255, 149, 0, 0.15);
             padding: 16px;
+        }
+        .box-arquivados {
+            border-color: #a855f7;
+            box-shadow: 0 4px 18px rgba(168, 85, 247, 0.15);
+            padding: 16px;
+            margin-bottom: 20px;
         }
         .cabecalho-pasta-assinadas {
             padding: 14px 16px;
@@ -336,7 +327,6 @@
             font-size: 11px;
             font-weight: 800;
             cursor: pointer;
-            transition: all 0.2s;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
@@ -392,7 +382,7 @@
         }
 
         .banner-lote {
-            height: 120px;
+            min-height: 120px;
             background-size: cover;
             background-position: center;
             position: relative;
@@ -418,12 +408,25 @@
 
         .info-lote {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            flex-direction: column;
+            gap: 2px;
             font-weight: 700;
             font-size: 14px;
             color: #ffffff;
             text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+        .info-lote-topo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .preview-conteudo {
+            font-size: 11px;
+            color: #ffcc00;
+            font-weight: 600;
+            margin-left: 22px;
+            font-family: monospace;
+            letter-spacing: 0.5px;
         }
 
         .icone-seta {
@@ -457,8 +460,10 @@
 
         .grupo-botoes-cabecalho {
             display: flex;
-            gap: 6px;
+            gap: 5px;
             align-items: center;
+            flex-wrap: wrap;
+            justify-content: flex-end;
         }
 
         .btn-acao-lote {
@@ -481,6 +486,10 @@
         .btn-copiar-lote {
             background: rgba(52, 199, 89, 0.3);
             border-color: rgba(52, 199, 89, 0.5);
+        }
+        .btn-arquivar-lote {
+            background: rgba(168, 85, 247, 0.3);
+            border-color: rgba(168, 85, 247, 0.5);
         }
 
         .tabela-container {
@@ -557,10 +566,6 @@
             margin-right: 4px;
             transition: all 0.2s;
             font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-        .btn-copiar-sec:hover {
-            background-color: #444;
-            color: #fff;
         }
         
         .btn-copiar.usado, .btn-copiar-sec.usado {
@@ -659,7 +664,30 @@
             font-size: 11px;
             cursor: pointer;
             text-transform: uppercase;
-            transition: background 0.2s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .btn-juntar-selecionados {
+            background-color: #007aff;
+            color: #ffffff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 11px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .btn-arquivar-selecionados {
+            background-color: #a855f7;
+            color: #ffffff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 11px;
+            cursor: pointer;
+            text-transform: uppercase;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
         .btn-apagar-selecionados {
@@ -672,7 +700,6 @@
             font-size: 11px;
             cursor: pointer;
             text-transform: uppercase;
-            transition: background 0.2s;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
         .btn-cancelar-selecao {
@@ -687,7 +714,6 @@
             align-items: center;
             justify-content: center;
             font-size: 12px;
-            margin-left: 2px;
         }
 
         .bottom-nav {
@@ -831,6 +857,8 @@
 <div id="painelSelecao" class="painel-selecao-flutuante">
     <span id="txtQtdSelecionados">0 sel.</span>
     <button class="btn-copiar-selecionados" id="btnCopiarSel">Copiar</button>
+    <button class="btn-juntar-selecionados" id="btnJuntarSel" style="display:none;">🧩 Juntar</button>
+    <button class="btn-arquivar-selecionados" id="btnArquivarSel" style="display:none;">📦 Arquivar</button>
     <button class="btn-apagar-selecionados" id="btnApagarSel">Apagar</button>
     <button class="btn-cancelar-selecao" id="btnCancelarSel">✕</button>
 </div>
@@ -844,7 +872,7 @@
         <div class="netflix-header">
             <div class="logo-grupo">
                 <div class="logo-bklogins">bklogins</div>
-                <div class="versao-tag">v16.4</div>
+                <div class="versao-tag">v16.5</div>
             </div>
             <div class="badge-sub">CARDS PRO</div>
         </div>
@@ -884,7 +912,7 @@
         <div class="netflix-header">
             <div class="logo-grupo">
                 <div class="logo-bklogins">bklogins</div>
-                <div class="versao-tag">v16.4</div>
+                <div class="versao-tag">v16.5</div>
             </div>
             <div class="badge-sub">EMAILS PRO</div>
         </div>
@@ -939,7 +967,7 @@
         <div class="netflix-header">
             <div class="logo-grupo">
                 <div class="logo-bklogins">bklogins</div>
-                <div class="versao-tag">v16.4</div>
+                <div class="versao-tag">v16.5</div>
             </div>
             <div class="badge-sub">DADOS PRO</div>
         </div>
@@ -964,15 +992,20 @@
     </div>
 </div>
 
-<!-- VIEW 4: ENVIO MANUAL DE BACKUP & LIXEIRA -->
+<!-- VIEW 4: ENVIO MANUAL DE BACKUP, ARQUIVADOS & LIXEIRA -->
 <div id="view-config" class="view">
     <div class="container">
         <div class="netflix-header">
             <div class="logo-grupo">
                 <div class="logo-bklogins">bklogins</div>
-                <div class="versao-tag">v16.4</div>
+                <div class="versao-tag">v16.5</div>
             </div>
-            <div class="badge-sub">LIXEIRA & BACKUP</div>
+            <div class="badge-sub">GERENCIADOR PRO</div>
+        </div>
+
+        <div class="box-arquivados">
+            <h3 style="margin-bottom: 12px; color: #a855f7; font-size: 15px;">📦 Lotes Arquivados</h3>
+            <div id="listaArquivados" style="max-height: 220px; overflow-y: auto;"></div>
         </div>
 
         <div class="box-lixeira">
@@ -1039,6 +1072,7 @@
             ultimo: 'ultimo_copiado_dados_geral'
         },
         lixeira: 'lixeira_sistema_v1',
+        arquivados: 'arquivados_sistema_v1',
         abaAtiva: 'aba_ativa_v10',
         configBackup: 'config_autobackup_v16'
     };
@@ -1077,13 +1111,14 @@
             ultimo: localStorage.getItem(CHAVES.dados.ultimo) || null
         },
         lixeira: JSON.parse(localStorage.getItem(CHAVES.lixeira) || '[]'),
+        arquivados: JSON.parse(localStorage.getItem(CHAVES.arquivados) || '[]'),
         abaAtiva: localStorage.getItem(CHAVES.abaAtiva) || 'cards'
     };
 
     let modoSelecaoAtivo = false;
-    let modoSelecaoLotesAssinadas = false;
+    let modoSelecaoLotes = false;
     let itensSelecionados = new Map(); 
-    let lotesAssinadasSelecionados = new Set();
+    let lotesSelecionados = new Set();
     let timerPressionar = null;
     let acaoModalPendente = null;
 
@@ -1159,6 +1194,76 @@
         appState.lixeira.unshift(obj);
         localStorage.setItem(CHAVES.lixeira, JSON.stringify(appState.lixeira));
         renderizarLixeira();
+    }
+
+    function arquivarLote(tipo, idLote) {
+        const index = appState[tipo].lotes.findIndex(l => l.idLote === idLote);
+        if (index === -1) return;
+
+        const loteObj = appState[tipo].lotes[index];
+        appState.arquivados.unshift({
+            idArquivado: Date.now() + Math.random(),
+            tipo: tipo,
+            lote: loteObj,
+            dataArquivamento: gerarDataHoraFormatada()
+        });
+
+        appState[tipo].lotes.splice(index, 1);
+        localStorage.setItem(CHAVES[tipo].lotes, JSON.stringify(appState[tipo].lotes));
+        localStorage.setItem(CHAVES.arquivados, JSON.stringify(appState.arquivados));
+
+        renderizarTodosLotes(tipo);
+        renderizarArquivados();
+        mostrarStatus('📦 Lote arquivado com sucesso!');
+    }
+
+    function restaurarLoteArquivado(idArquivado) {
+        const index = appState.arquivados.findIndex(a => a.idArquivado == idArquivado);
+        if (index === -1) return;
+
+        const itemArq = appState.arquivados[index];
+        appState[itemArq.tipo].lotes.unshift(itemArq.lote);
+        appState.arquivados.splice(index, 1);
+
+        localStorage.setItem(CHAVES[itemArq.tipo].lotes, JSON.stringify(appState[itemArq.tipo].lotes));
+        localStorage.setItem(CHAVES.arquivados, JSON.stringify(appState.arquivados));
+
+        renderizarTodosLotes(itemArq.tipo);
+        renderizarArquivados();
+        mostrarStatus('Lote restaurado do arquivo!');
+    }
+
+    function deletarPermanenteArquivado(idArquivado) {
+        appState.arquivados = appState.arquivados.filter(a => a.idArquivado != idArquivado);
+        localStorage.setItem(CHAVES.arquivados, JSON.stringify(appState.arquivados));
+        renderizarArquivados();
+    }
+
+    function renderizarArquivados() {
+        const divArq = document.getElementById('listaArquivados');
+        if (!divArq) return;
+        divArq.innerHTML = '';
+
+        if (appState.arquivados.length === 0) {
+            divArq.innerHTML = '<p style="color:#777; font-size:12px; text-align:center; padding:10px;">Nenhum lote arquivado.</p>';
+            return;
+        }
+
+        appState.arquivados.forEach(elemento => {
+            const div = document.createElement('div');
+            div.className = 'item-lixeira-card';
+            div.innerHTML = `
+                <div>
+                    <strong style="color:#a855f7;">[${elemento.tipo.toUpperCase()}]</strong> ${elemento.lote.nome} 
+                    <br><small style="color:#777;">${elemento.lote.itens.length} itens • Arquivado em ${elemento.dataArquivamento}</small>
+                </div>
+                <div>
+                    <button class="btn-restaurar-lixo" onclick="restaurarLoteArquivado('${elemento.idArquivado}')">Restaurar</button>
+                    <button class="btn-deletar-lixo" onclick="deletarPermanenteArquivado('${elemento.idArquivado}')">✕</button>
+                </div>
+            `;
+            divArq.appendChild(div);
+        });
     }
 
     function renderizarLixeira() {
@@ -1242,6 +1347,7 @@
         renderizarTodosLotes('emails');
         renderizarTodosLotes('dados');
         renderizarLixeira();
+        renderizarArquivados();
 
         if (appState.emails.pastaAberta) {
             document.getElementById('cardPastaAssinadas').classList.add('aberto');
@@ -1379,11 +1485,13 @@
         document.getElementById('fileImportGlobal').onchange = importarBackup;
 
         document.getElementById('btnCopiarSel').onclick = () => {
-            if (modoSelecaoLotesAssinadas) copiarLotesAssinadasSelecionados();
+            if (modoSelecaoLotes) copiarLotesSelecionados();
             else copiarItensSelecionados();
         };
+        document.getElementById('btnJuntarSel').onclick = juntarLotesSelecionados;
+        document.getElementById('btnArquivarSel').onclick = arquivarLotesSelecionados;
         document.getElementById('btnApagarSel').onclick = () => {
-            if (modoSelecaoLotesAssinadas) apagarLotesAssinadasSelecionados();
+            if (modoSelecaoLotes) apagarLotesSelecionados();
             else apagarItensSelecionados();
         };
         document.getElementById('btnCancelarSel').onclick = limparSelecao;
@@ -1472,11 +1580,11 @@
         });
     }
 
-    function vincularEventosCardLoteAssinadas(divLote, idLote) {
+    function vincularEventosCardLote(divLote, idLote) {
         const aoIniciarToque = () => {
             timerPressionar = setTimeout(() => {
-                modoSelecaoLotesAssinadas = true;
-                alternarSelecaoLoteAssinadas(divLote, idLote);
+                modoSelecaoLotes = true;
+                alternarSelecaoLote(divLote, idLote);
             }, 450);
         };
 
@@ -1495,27 +1603,29 @@
         divLote.addEventListener('touchcancel', aoCancelarToque);
 
         divLote.addEventListener('click', (e) => {
-            if (modoSelecaoLotesAssinadas) {
+            if (modoSelecaoLotes) {
                 e.stopPropagation();
-                alternarSelecaoLoteAssinadas(divLote, idLote);
+                alternarSelecaoLote(divLote, idLote);
             }
         });
     }
 
-    function alternarSelecaoLoteAssinadas(divLote, idLote) {
-        if (lotesAssinadasSelecionados.has(idLote)) {
-            lotesAssinadasSelecionados.delete(idLote);
+    function alternarSelecaoLote(divLote, idLote) {
+        if (lotesSelecionados.has(idLote)) {
+            lotesSelecionados.delete(idLote);
             divLote.classList.remove('card-lote-selecionado');
         } else {
-            lotesAssinadasSelecionados.add(idLote);
+            lotesSelecionados.add(idLote);
             divLote.classList.add('card-lote-selecionado');
         }
 
-        if (lotesAssinadasSelecionados.size === 0) {
+        if (lotesSelecionados.size === 0) {
             limparSelecao();
         } else {
             const painel = document.getElementById('painelSelecao');
-            document.getElementById('txtQtdSelecionados').innerText = `${lotesAssinadasSelecionados.size} lote(s)`;
+            document.getElementById('txtQtdSelecionados').innerText = `${lotesSelecionados.size} lote(s)`;
+            document.getElementById('btnJuntarSel').style.display = lotesSelecionados.size > 1 ? 'inline-block' : 'none';
+            document.getElementById('btnArquivarSel').style.display = 'inline-block';
             painel.style.display = 'flex';
         }
     }
@@ -1539,6 +1649,8 @@
     function atualizarPainelSelecao() {
         const painel = document.getElementById('painelSelecao');
         document.getElementById('txtQtdSelecionados').innerText = `${itensSelecionados.size} sel.`;
+        document.getElementById('btnJuntarSel').style.display = 'none';
+        document.getElementById('btnArquivarSel').style.display = 'none';
         painel.style.display = 'flex';
     }
 
@@ -1549,25 +1661,82 @@
         itensSelecionados.clear();
 
         document.querySelectorAll('.card-lote-selecionado').forEach(el => el.classList.remove('card-lote-selecionado'));
-        lotesAssinadasSelecionados.clear();
+        lotesSelecionados.clear();
 
         modoSelecaoAtivo = false;
-        modoSelecaoLotesAssinadas = false;
+        modoSelecaoLotes = false;
         document.getElementById('painelSelecao').style.display = 'none';
+        document.getElementById('btnJuntarSel').style.display = 'none';
+        document.getElementById('btnArquivarSel').style.display = 'none';
     }
 
-    function copiarLotesAssinadasSelecionados() {
-        if (lotesAssinadasSelecionados.size === 0) return;
+    /* FUNÇÃO 1: JUNÇÃO DE LOTES */
+    function juntarLotesSelecionados() {
+        if (lotesSelecionados.size < 2) return;
 
+        const tipo = appState.abaAtiva;
+        mostrarModal('Juntar Lotes', `Deseja unificar os ${lotesSelecionados.size} lotes selecionados em um único novo lote?`, () => {
+            let novosItens = [];
+            let lotesParaRemover = [];
+
+            appState[tipo].lotes.forEach(lote => {
+                if (lotesSelecionados.has(lote.idLote)) {
+                    novosItens.push(...lote.itens);
+                    lotesParaRemover.push(lote.idLote);
+                }
+            });
+
+            // Reorganiza o ID sequencial dos itens
+            novosItens.forEach((item, index) => {
+                item.idItem = index + 1;
+            });
+
+            const nomeNovoLote = `Lote Unificado (${lotesSelecionados.size}) • ${gerarDataHoraFormatada()}`;
+            const novoLote = {
+                idLote: Date.now(),
+                nome: nomeNovoLote,
+                banner: BANNERS[appState[tipo].lotes.length % BANNERS.length],
+                itens: novosItens
+            };
+
+            // Remove os velhos e adiciona o novo unificado
+            appState[tipo].lotes = appState[tipo].lotes.filter(l => !lotesSelecionados.has(l.idLote));
+            appState[tipo].lotes.unshift(novoLote);
+
+            localStorage.setItem(CHAVES[tipo].lotes, JSON.stringify(appState[tipo].lotes));
+
+            renderizarTodosLotes(tipo);
+            mostrarStatus('🧩 Lotes unificados com sucesso!');
+            limparSelecao();
+        });
+    }
+
+    /* FUNÇÃO 2: ARQUIVAR SELECIONADOS */
+    function arquivarLotesSelecionados() {
+        if (lotesSelecionados.size === 0) return;
+
+        const tipo = appState.abaAtiva;
+        mostrarModal('Arquivar Lotes', `Deseja arquivar os ${lotesSelecionados.size} lotes selecionados?`, () => {
+            lotesSelecionados.forEach(idLote => {
+                arquivarLote(tipo, idLote);
+            });
+            limparSelecao();
+        });
+    }
+
+    function copiarLotesSelecionados() {
+        if (lotesSelecionados.size === 0) return;
+
+        const tipo = appState.abaAtiva;
         let textoCompleto = '';
         let qtdItens = 0;
         const senhaPadrao = appState.emails.senhaPadrao;
 
-        appState.emails.lotes.forEach(lote => {
-            if (lotesAssinadasSelecionados.has(lote.idLote)) {
+        appState[tipo].lotes.forEach(lote => {
+            if (lotesSelecionados.has(lote.idLote)) {
                 lote.itens.forEach(item => {
                     let linha = item.textoCompleto || item.principal;
-                    if (senhaPadrao) {
+                    if (tipo === 'emails' && senhaPadrao) {
                         let delimitador = linha.includes(':') ? ':' : (linha.includes('|') ? '|' : ':');
                         linha = `${item.principal}${delimitador}${senhaPadrao}`;
                     }
@@ -1578,24 +1747,25 @@
         });
 
         copiarParaAreaTransferencia(textoCompleto.trim()).then(() => {
-            mostrarStatus(`✅ ${qtdItens} contas dos lotes selecionados copiadas!`);
+            mostrarStatus(`✅ ${qtdItens} itens dos lotes copiados!`);
             limparSelecao();
         }).catch(() => alert('❌ Erro ao acessar a área de transferência.'));
     }
 
-    function apagarLotesAssinadasSelecionados() {
-        if (lotesAssinadasSelecionados.size === 0) return;
+    function apagarLotesSelecionados() {
+        if (lotesSelecionados.size === 0) return;
 
-        mostrarModal('Mover para Lixeira', `Deseja mover os ${lotesAssinadasSelecionados.size} lotes selecionados para a Lixeira?`, () => {
-            appState.emails.lotes.forEach(l => {
-                if (lotesAssinadasSelecionados.has(l.idLote)) {
-                    l.itens.forEach(i => moverParaLixeira('emails', i, l.nome));
+        const tipo = appState.abaAtiva;
+        mostrarModal('Mover para Lixeira', `Deseja mover os ${lotesSelecionados.size} lotes selecionados para a Lixeira?`, () => {
+            appState[tipo].lotes.forEach(l => {
+                if (lotesSelecionados.has(l.idLote)) {
+                    l.itens.forEach(i => moverParaLixeira(tipo, i, l.nome));
                 }
             });
 
-            appState.emails.lotes = appState.emails.lotes.filter(l => !lotesAssinadasSelecionados.has(l.idLote));
-            localStorage.setItem(CHAVES.emails.lotes, JSON.stringify(appState.emails.lotes));
-            renderizarTodosLotes('emails');
+            appState[tipo].lotes = appState[tipo].lotes.filter(l => !lotesSelecionados.has(l.idLote));
+            localStorage.setItem(CHAVES[tipo].lotes, JSON.stringify(appState[tipo].lotes));
+            renderizarTodosLotes(tipo);
             mostrarStatus('Lotes movidos para a lixeira!');
             limparSelecao();
         });
@@ -1729,10 +1899,8 @@
         return itens;
     }
 
-    /* FILTRO DE EXTRAÇÃO AJUSTADO PARA EVITAR MSG_ID */
     function extrairCartoesDeTexto(texto) {
         const resultados = [];
-        // Busca especificamente sequências que tenham um cartão de 15/16 dígitos seguido de data e cvv
         const regexCartaoEspecial = /(\b\d{15,16}\b)\s*[|:\s/]\s*(\d{1,2})\s*[|:\s/]\s*(\d{2,4})\s*[|:\s/]\s*(\d{3,4})/g;
 
         let match;
@@ -1831,7 +1999,7 @@
             let contador = 1;
 
             linhas.forEach(linha => {
-                let l = linha.trim().replace(/^["\[{\s]+\vert{}[\]}"\s]+$/g, '');
+                let l = linha.trim().replace(/^["\[{\s]+|[\]}"\s]+$/g, '');
                 if (!l) return;
 
                 let delimitador = l.includes(':') ? ':' : (l.includes('|') ? '|' : ' ');
@@ -2293,6 +2461,25 @@
         });
     }
 
+    /* FUNÇÃO 3: OBTER PRÉVIA DO CONTEÚDO (BIN / EMAIL / NOME) */
+    function obterPreviewConteudo(tipo, lote) {
+        if (!lote.itens || lote.itens.length === 0) return '';
+
+        const primeiroItem = lote.itens[0];
+        if (tipo === 'cards') {
+            const numLimpo = primeiroItem.principal ? primeiroItem.principal.replace(/\D/g, '') : '';
+            if (numLimpo.length >= 6) {
+                return `BIN: ${numLimpo.substring(0, 6)}...`;
+            }
+            return numLimpo ? `CARD: ${numLimpo}` : '';
+        } else if (tipo === 'emails') {
+            return `1º: ${primeiroItem.principal}`;
+        } else if (tipo === 'dados') {
+            return `1º: ${primeiroItem.principal}`;
+        }
+        return '';
+    }
+
     function renderizarTodosLotes(tipo) {
         const areaId = tipo === 'cards' ? 'areaLotesCards' : (tipo === 'emails' ? 'areaLotesEmails' : 'areaLotesDados');
         const area = document.getElementById(areaId);
@@ -2313,9 +2500,9 @@
             divLote.className = `card-lote ${estaAberto ? 'aberto' : ''}`;
             divLote.id = `lote_${tipo}_${lote.idLote}`;
 
-            if (ehAssinada) {
-                vincularEventosCardLoteAssinadas(divLote, lote.idLote);
-            }
+            vincularEventosCardLote(divLote, lote.idLote);
+
+            const textPreview = obterPreviewConteudo(tipo, lote);
 
             const bannerDiv = document.createElement('div');
             bannerDiv.className = 'banner-lote';
@@ -2329,9 +2516,12 @@
                 <div class="banner-overlay"></div>
                 <div class="cabecalho-lote">
                     <div class="info-lote">
-                        <span class="icone-seta">▼</span>
-                        <span>${lote.nome}</span>
-                        <span class="qtd-badge">${lote.itens.length}</span>
+                        <div class="info-lote-topo">
+                            <span class="icone-seta">▼</span>
+                            <span>${lote.nome}</span>
+                            <span class="qtd-badge">${lote.itens.length}</span>
+                        </div>
+                        ${textPreview ? `<div class="preview-conteudo">${textPreview}</div>` : ''}
                     </div>
                     <div class="grupo-botoes-cabecalho" id="botoesCab_${tipo}_${lote.idLote}"></div>
                 </div>
@@ -2342,9 +2532,16 @@
             
             const btnRenomearL = document.createElement('button');
             btnRenomearL.className = 'btn-acao-lote';
-            btnRenomearL.innerText = '✏️ Renomear';
+            btnRenomearL.innerText = '✏️';
+            btnRenomearL.title = 'Renomear Lote';
             btnRenomearL.onclick = (e) => { e.stopPropagation(); renomearLote(tipo, lote.idLote); };
             btnGrupo.appendChild(btnRenomearL);
+
+            const btnArquivarL = document.createElement('button');
+            btnArquivarL.className = 'btn-acao-lote btn-arquivar-lote';
+            btnArquivarL.innerText = '📦 Arquivar';
+            btnArquivarL.onclick = (e) => { e.stopPropagation(); arquivarLote(tipo, lote.idLote); };
+            btnGrupo.appendChild(btnArquivarL);
 
             if (tipo === 'cards') {
                 const btnCopiarT = document.createElement('button');
@@ -2572,12 +2769,13 @@
 
     function gerarglobaisBackupJSON() {
         return JSON.stringify({
-            versao: '16.4',
+            versao: '16.5',
             dataExportacao: new Date().toLocaleString('pt-BR'),
             cards: appState.cards,
             emails: appState.emails,
             dados: appState.dados,
-            lixeira: appState.lixeira
+            lixeira: appState.lixeira,
+            arquivados: appState.arquivados
         }, null, 2);
     }
 
@@ -2609,6 +2807,7 @@
                 let dadosEmails = data.emails || {};
                 let dadosPessoas = data.dados || {};
                 let dadosLixeira = data.lixeira || [];
+                let dadosArquivados = data.arquivados || [];
 
                 localStorage.setItem(CHAVES.cards.lotes, JSON.stringify(dadosCards.lotes || []));
                 localStorage.setItem(CHAVES.cards.usados, JSON.stringify(dadosCards.usados || []));
@@ -2620,16 +2819,19 @@
                 localStorage.setItem(CHAVES.dados.lotes, JSON.stringify(dadosPessoas.lotes || []));
                 localStorage.setItem(CHAVES.dados.usados, JSON.stringify(dadosPessoas.usados || []));
                 localStorage.setItem(CHAVES.lixeira, JSON.stringify(dadosLixeira));
+                localStorage.setItem(CHAVES.arquivados, JSON.stringify(dadosArquivados));
 
                 appState.cards.lotes = dadosCards.lotes || [];
                 appState.emails.lotes = dadosEmails.lotes || [];
                 appState.dados.lotes = dadosPessoas.lotes || [];
                 appState.lixeira = dadosLixeira;
+                appState.arquivados = dadosArquivados;
 
                 renderizarTodosLotes('cards');
                 renderizarTodosLotes('emails');
                 renderizarTodosLotes('dados');
                 renderizarLixeira();
+                renderizarArquivados();
 
                 alert('✅ Backup importado com sucesso!');
             } catch (err) {
